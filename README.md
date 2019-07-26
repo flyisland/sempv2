@@ -1,5 +1,9 @@
 # Backing Up and Restoring Solace PubSub+ VPN Configs with SEMPv2
 
+## Goals
+
+[ ] Backing up the config of a VPN to a JSON file
+
 ## Usage
 
 ## Reference
