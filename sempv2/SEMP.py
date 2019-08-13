@@ -26,8 +26,6 @@ class SEMPv2:
             if (k_uri == "uri"): # ignore link pointed to itself
                 continue
             k_elements = k_uri[:-3]
-            data[k_elements]=[]
-            elements = data[k_elements]
             r = requests.get(v, auth=(self.admin_user, self.password))
             rjson = r.json()
             if (r.status_code != 200):
@@ -37,6 +35,10 @@ class SEMPv2:
             list_of_data = rjson['data']
             list_of_links = rjson['links']
 
+            if (len(list_of_data)>0):
+                data[k_elements]=[]
+                elements = data[k_elements]
+    
             for i in range(len(list_of_data)):
                 elements.append(list_of_data[i])
                 self.__recursive_get_elements(elements[-1], list_of_links[i])
