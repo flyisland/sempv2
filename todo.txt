@@ -1,0 +1,3 @@
+2019-08-14 remove elements with empty body
+2019-08-14 remove properties with default value
+2019-08-14 ignore internal elements with default content only, like clientUsername "#acl-profile"
