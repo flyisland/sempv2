@@ -31,10 +31,10 @@ class SEMPv2:
             # This is a built-in element, skip the delete operation
             return
 
-#        if key_uri.startswith("%23"):
+        if key_uri.startswith("%23"):
             # Names starting with '#'->'%23' are reserved 
             # skip the delete operation
- #           return
+           return
         current_url = url+"/"+elements_name+"/"+key_uri
 
         #3. recursively process all sub elements
