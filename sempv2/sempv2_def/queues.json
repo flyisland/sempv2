@@ -9,7 +9,7 @@
         "accessType": "exclusive",
         "consumerAckPropagationEnabled": true,
         "deadMsgQueue": "#DEAD_MSG_QUEUE",
-        "egressEnabled": true,
+        "egressEnabled": false,
         "eventBindCountThreshold": {
             "clearPercent": 60,
             "setPercent": 80
@@ -22,7 +22,7 @@
             "clearPercent": 60,
             "setPercent": 80
         },
-        "ingressEnabled": true,
+        "ingressEnabled": false,
         "maxBindCount": 1000,
         "maxDeliveredUnackedMsgsPerFlow": 10000,
         "maxMsgSize": 10000000,
