@@ -13,28 +13,23 @@ class SEMPv2:
 
     def backup_vpn(self, vpn_name):
         url = self.host+self.config_url+vpn_name
-        r = requests.get(url, auth=(self.admin_user, self.password))
-        rjson = r.json()
-        if (r.status_code != 200):
-            print(json.dumps(rjson['meta'], indent=4))
-        else:
-            self.vpn = rjson['data']
-            links = rjson['links']
-            self.__recursive_get_elements(self.vpn, links)
-            self.__remove_default_properties("msgVpns", self.vpn)
-            print(json.dumps(self.vpn, indent=4))
+        # GET the first level content of this vpn
+        rjson = self.__rest("get", url)
+        self.vpn = rjson['data']
+        links = rjson['links']
+
+        # GET all its sub elements
+        self.__recursive_get_elements(self.vpn, links)
+        self.__remove_default_properties("msgVpns", self.vpn)
+        print(json.dumps(self.vpn, indent=4))
 
     def __recursive_get_elements(self, data, links):
         for k_uri, v in links.items():
             if (k_uri == "uri"): # ignore link pointed to itself
                 continue
             k_elements = k_uri[:-3]
-            r = requests.get(v, auth=(self.admin_user, self.password))
-            rjson = r.json()
-            if (r.status_code != 200):
-                print(json.dumps(rjson['meta'], indent=4))
-                # TODO retrun error
-
+            
+            rjson = self.__rest("get", url)
             list_of_data = rjson['data']
             list_of_links = rjson['links']
 
@@ -97,14 +92,11 @@ class SEMPv2:
 
         #3. post to create this resource
         elements_url = url+"/"+elements_name
-        r = requests.post(elements_url, headers={"content-type": "application/json"},
-            auth=(self.admin_user, self.password), data=json.dumps(payload))
-        self.__handle_request_result(r)
+        self.__rest("post", elements_url, payload)
 
         #4. build parent url for sub elements
         key_uri = ",".join([quote_plus(data[key_name]) for key_name in element_def["key_names"]])
         parent_url = elements_url+"/"+key_uri
-        print(parent_url)
 
         #5. recursively process all sub elements
         for sub_elements_name in element_def["sub_elements"]:
@@ -113,9 +105,15 @@ class SEMPv2:
             for item in data[sub_elements_name]:
                 self.__post_element(parent_url, sub_elements_name, item)
 
-    def __handle_request_result(self, r):
-        rd = json.loads(r.text)
-        responseCode = rd["meta"]["responseCode"]
-        if responseCode != 200:
+    def __rest(self, verb, url, data_json=None):
+        auth=(self.admin_user, self.password)
+        headers={"content-type": "application/json"}
+        r = getattr(requests, verb)(url, headers={"content-type": "application/json"},
+            auth=(self.admin_user, self.password),
+            data=(json.dumps(data_json) if data_json != None else None))
+        rjson = r.json()
+        if (r.status_code != 200):
             print(r.text)
             raise RuntimeError
+        else:
+            return r.json()
