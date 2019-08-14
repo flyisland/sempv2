@@ -2,6 +2,9 @@ import requests
 import json
 from importlib_resources import read_text
 from urllib.parse import quote_plus
+import logging
+
+logging.basicConfig(level=logging.INFO)
 
 class SEMPv2:
 
@@ -42,6 +45,7 @@ class SEMPv2:
                 self.__delete_elements(current_url, sub_name, sub_element)
 
         #4. delete current element
+        logging.info("delete: %s" % (current_url))
         self.__rest("delete", current_url)
 
 
@@ -129,6 +133,7 @@ class SEMPv2:
         #4. build parent url for sub elements
         key_uri = ",".join([quote_plus(data[key_name]) for key_name in element_def["key_names"]])
         parent_url = elements_url+"/"+key_uri
+        logging.info("%s: %s" % ("create", parent_url))
 
         #5. recursively process all sub elements
         for sub_elements_name in element_def["sub_elements"]:
