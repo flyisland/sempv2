@@ -1,4 +1,15 @@
 x 2019-08-14 remove elements with empty body
 x 2019-08-14 remove properties with default value
 2019-08-14 add all sempv2 definitions
+        "authorizationGroups"
+        "distributedCaches"
+        "dmrBridges"
+        "mqttRetainCaches"
+        "mqttSessions"
+        "replayLogs"
+        "replicatedTopics"
+        "restDeliveryPoints"
+        "sequencedTopics"
+        "topicEndpoints"
+
 2019-08-14 ignore internal elements with default content only, like clientUsername "#acl-profile"
