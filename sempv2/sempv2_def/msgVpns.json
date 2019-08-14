@@ -8,6 +8,8 @@
         "clientUsernames",
         "queues",
         "jndiConnectionFactories",
+        "jndiQueues",
+        "jndiTopics",
         "bridges"
     ],
     "defaults": {
