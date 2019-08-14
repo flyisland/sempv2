@@ -12,6 +12,9 @@
         "jndiTopics",
         "bridges"
     ],
+    "built_in_elements_quote_plus": [
+        "default"
+    ],
     "defaults": {
         "authenticationBasicEnabled": true,
         "authenticationBasicProfileName": "",

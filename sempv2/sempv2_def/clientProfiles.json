@@ -3,6 +3,10 @@
         "clientProfileName"
     ],
     "sub_elements": [],
+    "built_in_elements_quote_plus": [
+        "%23client-profile",
+        "default"
+    ],
     "defaults": {
         "allowBridgeConnectionsEnabled": false,
         "allowCutThroughForwardingEnabled": false,

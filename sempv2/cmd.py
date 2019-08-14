@@ -30,6 +30,14 @@ def backup(sempv2, vpn):
     sempv2.backup_vpn(vpn)
 
 @cli.command()
+@click.argument('vpn')
+@pass_sempv2
+def delete(sempv2, vpn):
+    """Delete the VPN"""
+    sempv2.delete_vpn(vpn)
+
+
+@cli.command()
 @click.argument('config-file', type=click.Path(exists=True))
 @pass_sempv2
 def restore(sempv2, config_file):

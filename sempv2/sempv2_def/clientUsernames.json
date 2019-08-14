@@ -3,6 +3,10 @@
         "clientUsername"
     ],
     "sub_elements": [],
+    "built_in_elements_quote_plus": [
+        "%23client-username",
+        "default"
+    ],
     "defaults": {
         "aclProfileName": "default",
         "clientProfileName": "default",
