@@ -6,13 +6,12 @@ from urllib.parse import quote_plus
 class SEMPv2:
 
     def __init__(self, host="", admin_user="", password=""):
-        self.host = host
         self.admin_user = admin_user
         self.password = password
-        self.config_url = "/SEMP/v2/config/msgVpns/"
+        self.config_url = host + "/SEMP/v2/config"
 
     def backup_vpn(self, vpn_name):
-        url = self.host+self.config_url+vpn_name
+        url = self.config_url+"/msgVpns/"+vpn_name
         # GET the first level content of this vpn
         rjson = self.__rest("get", url)
         self.vpn = rjson['data']
@@ -24,7 +23,7 @@ class SEMPv2:
         print(json.dumps(self.vpn, indent=4))
 
     def __recursive_get_elements(self, data, links):
-        for k_uri, v in links.items():
+        for k_uri, url in links.items():
             if (k_uri == "uri"): # ignore link pointed to itself
                 continue
             k_elements = k_uri[:-3]
@@ -76,8 +75,7 @@ class SEMPv2:
     def restore(self, filename):
         with open(filename) as json_file:
             data = json.load(json_file)
-        url = self.host + "/SEMP/v2/config"
-        self.__post_element(url, "msgVpns", data)
+        self.__post_element(self.config_url, "msgVpns", data)
 
 
     def __post_element(self, url, elements_name, data):
