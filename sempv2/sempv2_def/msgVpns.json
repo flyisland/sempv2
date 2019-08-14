@@ -1,0 +1,159 @@
+{
+    "key_names": [
+        "msgVpnName"
+    ],
+    "sub_elements": [
+        "aclProfiles"
+    ],
+    "defaults": {
+        "authenticationBasicEnabled": true,
+        "authenticationBasicProfileName": "",
+        "authenticationBasicRadiusDomain": "",
+        "authenticationBasicType": "internal",
+        "authenticationClientCertAllowApiProvidedUsernameEnabled": false,
+        "authenticationClientCertEnabled": false,
+        "authenticationClientCertMaxChainDepth": 3,
+        "authenticationClientCertRevocationCheckMode": "allow-valid",
+        "authenticationClientCertUsernameSource": "common-name",
+        "authenticationClientCertValidateDateEnabled": true,
+        "authenticationKerberosAllowApiProvidedUsernameEnabled": false,
+        "authenticationKerberosEnabled": false,
+        "authorizationLdapGroupMembershipAttributeName": "memberOf",
+        "authorizationProfileName": "",
+        "authorizationType": "internal",
+        "bridgingTlsServerCertEnforceTrustedCommonNameEnabled": true,
+        "bridgingTlsServerCertMaxChainDepth": 3,
+        "bridgingTlsServerCertValidateDateEnabled": true,
+        "distributedCacheManagementEnabled": true,
+        "dmrEnabled": false,
+        "enabled": true,
+        "eventConnectionCountThreshold": {
+            "clearPercent": 60,
+            "setPercent": 80
+        },
+        "eventEgressFlowCountThreshold": {
+            "clearPercent": 60,
+            "setPercent": 80
+        },
+        "eventEgressMsgRateThreshold": {
+            "clearValue": 3000000,
+            "setValue": 4000000
+        },
+        "eventEndpointCountThreshold": {
+            "clearPercent": 60,
+            "setPercent": 80
+        },
+        "eventIngressFlowCountThreshold": {
+            "clearPercent": 60,
+            "setPercent": 80
+        },
+        "eventIngressMsgRateThreshold": {
+            "clearValue": 3000000,
+            "setValue": 4000000
+        },
+        "eventLargeMsgThreshold": 1024,
+        "eventLogTag": "",
+        "eventMsgSpoolUsageThreshold": {
+            "clearPercent": 60,
+            "setPercent": 80
+        },
+        "eventPublishClientEnabled": false,
+        "eventPublishMsgVpnEnabled": false,
+        "eventPublishSubscriptionMode": "off",
+        "eventPublishTopicFormatMqttEnabled": false,
+        "eventPublishTopicFormatSmfEnabled": true,
+        "eventServiceAmqpConnectionCountThreshold": {
+            "clearPercent": 60,
+            "setPercent": 80
+        },
+        "eventServiceMqttConnectionCountThreshold": {
+            "clearPercent": 60,
+            "setPercent": 80
+        },
+        "eventServiceRestIncomingConnectionCountThreshold": {
+            "clearPercent": 60,
+            "setPercent": 80
+        },
+        "eventServiceSmfConnectionCountThreshold": {
+            "clearPercent": 60,
+            "setPercent": 80
+        },
+        "eventServiceWebConnectionCountThreshold": {
+            "clearPercent": 60,
+            "setPercent": 80
+        },
+        "eventSubscriptionCountThreshold": {
+            "clearPercent": 60,
+            "setPercent": 80
+        },
+        "eventTransactedSessionCountThreshold": {
+            "clearPercent": 60,
+            "setPercent": 80
+        },
+        "eventTransactionCountThreshold": {
+            "clearPercent": 60,
+            "setPercent": 80
+        },
+        "exportSubscriptionsEnabled": false,
+        "jndiEnabled": false,
+        "maxConnectionCount": 1000,
+        "maxEgressFlowCount": 1000,
+        "maxEndpointCount": 1000,
+        "maxIngressFlowCount": 1000,
+        "maxMsgSpoolUsage": 0,
+        "maxSubscriptionCount": 500000,
+        "maxTransactedSessionCount": 1000,
+        "maxTransactionCount": 5000,
+        "mqttRetainMaxMemory": -1,
+        "replicationAckPropagationIntervalMsgCount": 20,
+        "replicationBridgeAuthenticationBasicClientUsername": "",
+        "replicationBridgeAuthenticationScheme": "basic",
+        "replicationBridgeCompressedDataEnabled": false,
+        "replicationBridgeEgressFlowWindowSize": 255,
+        "replicationBridgeRetryDelay": 3,
+        "replicationBridgeTlsEnabled": false,
+        "replicationBridgeUnidirectionalClientProfileName": "#client-profile",
+        "replicationEnabled": false,
+        "replicationQueueMaxMsgSpoolUsage": 60000,
+        "replicationQueueRejectMsgToSenderOnDiscardEnabled": true,
+        "replicationRejectMsgWhenSyncIneligibleEnabled": false,
+        "replicationRole": "standby",
+        "replicationTransactionMode": "async",
+        "restTlsServerCertEnforceTrustedCommonNameEnabled": true,
+        "restTlsServerCertMaxChainDepth": 3,
+        "restTlsServerCertValidateDateEnabled": true,
+        "sempOverMsgBusAdminClientEnabled": false,
+        "sempOverMsgBusAdminDistributedCacheEnabled": false,
+        "sempOverMsgBusAdminEnabled": false,
+        "sempOverMsgBusEnabled": true,
+        "sempOverMsgBusShowEnabled": false,
+        "serviceAmqpMaxConnectionCount": 1000,
+        "serviceAmqpPlainTextEnabled": false,
+        "serviceAmqpPlainTextListenPort": 0,
+        "serviceAmqpTlsEnabled": false,
+        "serviceAmqpTlsListenPort": 0,
+        "serviceMqttMaxConnectionCount": 1000,
+        "serviceMqttPlainTextEnabled": false,
+        "serviceMqttPlainTextListenPort": 0,
+        "serviceMqttTlsEnabled": false,
+        "serviceMqttTlsListenPort": 0,
+        "serviceMqttTlsWebSocketEnabled": false,
+        "serviceMqttTlsWebSocketListenPort": 0,
+        "serviceMqttWebSocketEnabled": false,
+        "serviceMqttWebSocketListenPort": 0,
+        "serviceRestIncomingMaxConnectionCount": 1000,
+        "serviceRestIncomingPlainTextEnabled": false,
+        "serviceRestIncomingPlainTextListenPort": 0,
+        "serviceRestIncomingTlsEnabled": false,
+        "serviceRestIncomingTlsListenPort": 0,
+        "serviceRestMode": "messaging",
+        "serviceRestOutgoingMaxConnectionCount": 1000,
+        "serviceSmfMaxConnectionCount": 1000,
+        "serviceSmfPlainTextEnabled": true,
+        "serviceSmfTlsEnabled": true,
+        "serviceWebMaxConnectionCount": 1000,
+        "serviceWebPlainTextEnabled": true,
+        "serviceWebTlsEnabled": true,
+        "tlsAllowDowngradeToPlainTextEnabled": false
+    }
+}

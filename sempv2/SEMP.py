@@ -1,5 +1,6 @@
 import requests
 import json
+from importlib_resources import read_text
 
 class SEMPv2:
 
@@ -19,6 +20,7 @@ class SEMPv2:
             self.vpn = rjson['data']
             links = rjson['links']
             self.__recursive_get_elements(self.vpn, links)
+            self.__remove_default_properties("msgVpns", self.vpn)
             print(json.dumps(self.vpn, indent=4))
 
     def __recursive_get_elements(self, data, links):
@@ -35,10 +37,42 @@ class SEMPv2:
             list_of_data = rjson['data']
             list_of_links = rjson['links']
 
-            if (len(list_of_data)>0):
+            if (len(list_of_data)>0): # skip empty elements
                 data[k_elements]=[]
                 elements = data[k_elements]
     
             for i in range(len(list_of_data)):
                 elements.append(list_of_data[i])
                 self.__recursive_get_elements(elements[-1], list_of_links[i])
+
+    def __remove_default_properties(self, element_name, data, unrequired_elements=[]):
+        #1. read json file
+        element_def = self.__load_def_json(element_name)
+        
+        #2. remove default properties
+        for k, v in element_def["defaults"].items():
+            if k in element_def["key_names"]:
+                # must keep the required properties
+                continue
+            if k in data:
+                if data[k] == element_def["defaults"][k]:
+                    data.pop(k)
+        
+        #2.1 remove unrequired elements
+        for k in unrequired_elements:
+            if k in data:
+                data.pop(k)
+        sub_unrequired_elements = unrequired_elements + element_def["key_names"]
+
+        #3. recursively process all sub elements
+        for sub_name in element_def["sub_elements"]:
+            if sub_name not in data: # skip empty elements
+                continue
+            for sub_element in data[sub_name]:
+                self.__remove_default_properties(sub_name, sub_element, sub_unrequired_elements)
+
+    def __load_def_json(self, element_name):
+        # https://importlib-resources.readthedocs.io/en/latest/using.html
+        # Reads contents with UTF-8 encoding and returns str.
+        return json.loads(read_text('sempv2.sempv2_def', element_name+'.json'))
+        

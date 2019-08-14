@@ -10,6 +10,7 @@ setup(name='sempv2',
       packages=['sempv2'],
       install_requires=[
           'click',
+          'importlib_resources'
       ],
       entry_points='''
             [console_scripts]

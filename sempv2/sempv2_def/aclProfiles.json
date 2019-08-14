@@ -1,0 +1,11 @@
+{
+    "key_names": [
+        "aclProfileName"
+    ],
+    "sub_elements": [],
+    "defaults": {
+        "clientConnectDefaultAction": "disallow",
+        "publishTopicDefaultAction": "disallow",
+        "subscribeTopicDefaultAction": "disallow"
+    }
+}
