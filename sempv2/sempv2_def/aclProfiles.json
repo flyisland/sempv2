@@ -2,7 +2,11 @@
     "key_names": [
         "aclProfileName"
     ],
-    "sub_elements": [],
+    "sub_elements": [
+        "clientConnectExceptions",
+        "publishExceptions",
+        "subscribeExceptions"
+    ],
     "defaults": {
         "clientConnectDefaultAction": "disallow",
         "publishTopicDefaultAction": "disallow",

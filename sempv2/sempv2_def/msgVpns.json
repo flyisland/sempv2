@@ -3,7 +3,11 @@
         "msgVpnName"
     ],
     "sub_elements": [
-        "aclProfiles"
+        "aclProfiles",
+        "clientProfiles",
+        "clientUsernames",
+        "queues",
+        "jndiConnectionFactories"
     ],
     "defaults": {
         "authenticationBasicEnabled": true,

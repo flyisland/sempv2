@@ -1,0 +1,13 @@
+{
+    "key_names": [
+        "clientUsername"
+    ],
+    "sub_elements": [],
+    "defaults": {
+        "aclProfileName": "default",
+        "clientProfileName": "default",
+        "enabled": false,
+        "guaranteedEndpointPermissionOverrideEnabled": false,
+        "subscriptionManagerEnabled": false
+    }
+}
