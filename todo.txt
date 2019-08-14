@@ -12,5 +12,5 @@ x 2019-08-14 remove properties with default value
         "sequencedTopics"
         "topicEndpoints"
 
-2019-08-14 Names starting with '#' are reserved +bug
-2019-08-14 Add delete support
+2019-08-14 restore to handle "Names starting with '#' are reserved" and built-in elements.
+x 2019-08-14 Add delete support
