@@ -1,6 +1,7 @@
 import requests
 import json
 from importlib_resources import read_text
+from urllib.parse import quote_plus
 
 class SEMPv2:
 
@@ -76,3 +77,45 @@ class SEMPv2:
         # Reads contents with UTF-8 encoding and returns str.
         return json.loads(read_text('sempv2.sempv2_def', element_name+'.json'))
         
+    
+    def restore(self, filename):
+        with open(filename) as json_file:
+            data = json.load(json_file)
+        url = self.host + "/SEMP/v2/config"
+        self.__post_element(url, "msgVpns", data)
+
+
+    def __post_element(self, url, elements_name, data):
+        #1. load definition of this element
+        element_def = self.__load_def_json(elements_name)
+
+        #2. extract the payload of this element
+        payload = {}
+        for k in data:
+            if k not in element_def["sub_elements"]:
+                payload[k] = data[k]
+
+        #3. post to create this resource
+        elements_url = url+"/"+elements_name
+        r = requests.post(elements_url, headers={"content-type": "application/json"},
+            auth=(self.admin_user, self.password), data=json.dumps(payload))
+        self.__handle_request_result(r)
+
+        #4. build parent url for sub elements
+        key_uri = ",".join([quote_plus(data[key_name]) for key_name in element_def["key_names"]])
+        parent_url = elements_url+"/"+key_uri
+        print(parent_url)
+
+        #5. recursively process all sub elements
+        for sub_elements_name in element_def["sub_elements"]:
+            if sub_elements_name not in data:
+                continue
+            for item in data[sub_elements_name]:
+                self.__post_element(parent_url, sub_elements_name, item)
+
+    def __handle_request_result(self, r):
+        rd = json.loads(r.text)
+        responseCode = rd["meta"]["responseCode"]
+        if responseCode != 200:
+            print(r.text)
+            raise RuntimeError

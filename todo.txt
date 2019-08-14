@@ -12,4 +12,5 @@ x 2019-08-14 remove properties with default value
         "sequencedTopics"
         "topicEndpoints"
 
-2019-08-14 ignore internal elements with default content only, like clientUsername "#acl-profile"
+2019-08-14 Names starting with '#' are reserved +bug
+2019-08-14 Add delete support

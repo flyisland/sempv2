@@ -1,7 +1,7 @@
 {
     "key_names": [
         "topicSyntax",
-        "subscribeExceptionTopic"
+        "publishExceptionTopic"
     ],
     "sub_elements": [],
     "defaults": {}
