@@ -11,6 +11,10 @@ class SEMPv2:
         self.config_url = host + "/SEMP/v2/config"
 
     def backup_vpn(self, vpn_name):
+        self.__get_vpn_config(vpn_name)
+        print(json.dumps(self.vpn, indent=4))
+
+    def __get_vpn_config(self, vpn_name):
         url = self.config_url+"/msgVpns/"+vpn_name
         # GET the first level content of this vpn
         rjson = self.__rest("get", url)
@@ -20,7 +24,6 @@ class SEMPv2:
         # GET all its sub elements
         self.__recursive_get_elements(self.vpn, links)
         self.__remove_default_properties("msgVpns", self.vpn)
-        print(json.dumps(self.vpn, indent=4))
 
     def __recursive_get_elements(self, data, links):
         for k_uri, url in links.items():
