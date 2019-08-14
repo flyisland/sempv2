@@ -7,7 +7,8 @@
         "clientProfiles",
         "clientUsernames",
         "queues",
-        "jndiConnectionFactories"
+        "jndiConnectionFactories",
+        "bridges"
     ],
     "defaults": {
         "authenticationBasicEnabled": true,
@@ -30,7 +31,7 @@
         "bridgingTlsServerCertValidateDateEnabled": true,
         "distributedCacheManagementEnabled": true,
         "dmrEnabled": false,
-        "enabled": true,
+        "enabled": false,
         "eventConnectionCountThreshold": {
             "clearPercent": 60,
             "setPercent": 80

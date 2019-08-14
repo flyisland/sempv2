@@ -1,0 +1,18 @@
+{
+    "key_names": [
+        "remoteMsgVpnName",
+        "remoteMsgVpnLocation",
+        "remoteMsgVpnInterface"
+    ],
+    "sub_elements": [],
+    "defaults": {
+        "clientUsername": "",
+        "compressedDataEnabled": false,
+        "connectOrder": 4,
+        "egressFlowWindowSize": 255,
+        "enabled": false,
+        "queueBinding": "",
+        "tlsEnabled": false,
+        "unidirectionalClientProfile": "#client-profile"
+    }
+}
