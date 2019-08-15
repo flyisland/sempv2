@@ -1,4 +1,5 @@
 import json
+from urllib.parse import quote_plus
 
 class Mixin:
 
@@ -37,7 +38,7 @@ class Mixin:
                 if data[k] == element_def["defaults"][k]:
                     data.pop(k)
         
-        #2.1 remove unrequired elements
+        #2.1 remove unrequited elements
         for k in unrequired_elements:
             if k in data:
                 data.pop(k)
@@ -47,5 +48,12 @@ class Mixin:
         for sub_name in element_def["sub_elements"]:
             if sub_name not in data: # skip empty elements
                 continue
+            sub_element_def = self.load_def_json(sub_name)
             for sub_element in data[sub_name]:
-                self.remove_default_properties(sub_name, sub_element, sub_unrequired_elements)
+                key_uri = ",".join([quote_plus(sub_element[key_name]) for key_name in sub_element_def["key_names"]])
+                if key_uri.startswith("%23"):
+                    # Names starting with '#'->'%23' are reserved 
+                    # Remove it from backup
+                    data[sub_name].remove(sub_element)
+                else:
+                    self.remove_default_properties(sub_name, sub_element, sub_unrequired_elements)

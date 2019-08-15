@@ -20,18 +20,31 @@ class Mixin:
             if k not in element_def["sub_elements"]:
                 payload[k] = data[k]
 
-        #3. post to create this resource
-        elements_url = url+"/"+elements_name
-        self.rest("post", elements_url, payload)
-
-        #4. build parent url for sub elements
+        #3. build collention url and resource url for this element
         key_uri = ",".join([quote_plus(data[key_name]) for key_name in element_def["key_names"]])
-        parent_url = elements_url+"/"+key_uri
-        logging.info("%s: %s" % ("create", parent_url))
+        collention_url = url+"/"+elements_name
+        resource_url = collention_url+"/"+key_uri
+
+        #4. post or patch to create this resource
+        if key_uri.startswith("%23"):
+            # Names starting with '#'->'%23' are reserved 
+            # skip the restore operation
+            logging.info("%s: %s" % ("skip", resource_url))
+            return
+
+        if key_uri in element_def.get("built_in_elements_quote_plus", []):
+            # This is a existed built-in element
+            # Patch to update existed element
+            logging.info("%s: %s" % ("patch", resource_url))
+            self.rest("patch", resource_url, payload)
+        else:
+            # Post to create new element
+            logging.info("%s: %s with (%s)" % ("create", collention_url, key_uri))
+            self.rest("post", collention_url, payload)
 
         #5. recursively process all sub elements
         for sub_elements_name in element_def["sub_elements"]:
             if sub_elements_name not in data:
                 continue
             for item in data[sub_elements_name]:
-                self.__post_element(parent_url, sub_elements_name, item)
+                self.__post_element(resource_url, sub_elements_name, item)
