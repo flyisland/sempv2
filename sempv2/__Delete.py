@@ -1,4 +1,3 @@
-from urllib.parse import quote_plus
 import logging
 
 class Mixin:
@@ -12,7 +11,7 @@ class Mixin:
         element_def = self.load_def_json(elements_name)
 
         #2. build resource url for current element
-        key_uri = ",".join([quote_plus(data[key_name]) for key_name in element_def["key_names"]])
+        key_uri = self.build_key_uri(data, element_def)
         if key_uri in element_def.get("built_in_elements_quote_plus", []):
             # This is a built-in element, skip the delete operation
             return

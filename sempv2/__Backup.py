@@ -1,5 +1,4 @@
 import json
-from urllib.parse import quote_plus
 
 class Mixin:
 
@@ -50,7 +49,7 @@ class Mixin:
                 continue
             sub_element_def = self.load_def_json(sub_name)
             for sub_element in data[sub_name]:
-                key_uri = ",".join([quote_plus(sub_element[key_name]) for key_name in sub_element_def["key_names"]])
+                key_uri = self.build_key_uri(sub_element, sub_element_def)
                 if key_uri.startswith("%23"):
                     # Names starting with '#'->'%23' are reserved 
                     # Remove it from backup

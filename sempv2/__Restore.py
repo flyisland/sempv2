@@ -21,7 +21,7 @@ class Mixin:
                 payload[k] = data[k]
 
         #3. build collention url and resource url for this element
-        key_uri = ",".join([quote_plus(data[key_name]) for key_name in element_def["key_names"]])
+        key_uri = self.build_key_uri(data, element_def)
         collention_url = url+"/"+elements_name
         resource_url = collention_url+"/"+key_uri
 

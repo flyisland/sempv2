@@ -1,6 +1,7 @@
 import requests
 import json
 from importlib_resources import read_text
+from urllib.parse import quote_plus
 import logging
 
 from  sempv2 import __Backup, __Delete, __Restore
@@ -43,3 +44,7 @@ class SEMPv2(__Backup.Mixin, __Delete.Mixin, __Restore.Mixin):
             raise RuntimeError
         else:
             return r.json()
+
+    def build_key_uri(self, element_json, element_def):
+        key_uri = ",".join([quote_plus(element_json[key_name] if key_name in element_json else "") for key_name in element_def["key_names"]])
+        return key_uri
