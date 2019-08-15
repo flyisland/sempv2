@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(name='sempv2',
       version='0.1',
@@ -7,7 +7,7 @@ setup(name='sempv2',
       author='Island Chen',
       author_email='island.chen@outlook.com',
       license='MIT',
-      packages=['sempv2'],
+      packages=find_packages(),
       install_requires=[
           'click',
           'importlib_resources'
@@ -16,4 +16,8 @@ setup(name='sempv2',
             [console_scripts]
             sempv2=sempv2.cmd:cli
       ''',
+      include_package_data=True,
+      package_data={
+            '': ['*.json'],
+      },
       zip_safe=False)
