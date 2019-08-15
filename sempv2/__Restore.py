@@ -1,14 +1,14 @@
 import json
 from urllib.parse import quote_plus
 import logging
+from jinja2 import Template
 
 
 class Mixin:
     def restore(self, filename):
         with open(filename) as json_file:
-            data = json.load(json_file)
+            data = json.loads(Template(json_file.read()).render())
         self.__post_element(self.config_url, "msgVpns", data)
-
 
     def __post_element(self, url, elements_name, data):
         #1. load definition of this element
