@@ -1,3 +1,4 @@
+2019-08-15 don't touch "Names starting with '#' are reserved" in backup, restore and delete
 2019-08-15 add template support for config file
 2019-08-14 add all sempv2 definitions
         "authorizationGroups"
@@ -10,7 +11,6 @@
         "restDeliveryPoints"
         "sequencedTopics"
         "topicEndpoints"
-2019-08-14 restore to handle "Names starting with '#' are reserved" and built-in elements.
 
 x 2019-08-14 remove elements with empty body
 x 2019-08-14 remove properties with default value
