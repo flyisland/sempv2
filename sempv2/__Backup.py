@@ -48,11 +48,11 @@ class Mixin:
             if sub_name not in data: # skip empty elements
                 continue
             sub_element_def = self.load_def_json(sub_name)
+            
+            # Names starting with '#'->'%23' are reserved
+            # Remove it from backup
+            data[sub_name][:] = [sub_element for sub_element in data[sub_name] 
+                if not self.build_key_uri(sub_element, sub_element_def).startswith("%23")]
+
             for sub_element in data[sub_name]:
-                key_uri = self.build_key_uri(sub_element, sub_element_def)
-                if key_uri.startswith("%23"):
-                    # Names starting with '#'->'%23' are reserved 
-                    # Remove it from backup
-                    data[sub_name].remove(sub_element)
-                else:
-                    self.remove_default_properties(sub_name, sub_element, sub_unrequired_elements)
+                self.remove_default_properties(sub_name, sub_element, sub_unrequired_elements)
