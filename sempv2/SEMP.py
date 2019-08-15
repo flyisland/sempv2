@@ -15,17 +15,6 @@ class SEMPv2(__Backup.Mixin, __Delete.Mixin, __Restore.Mixin):
         self.password = password
         self.config_url = host + "/SEMP/v2/config"
 
-    def get_vpn_config(self, vpn_name):
-        url = self.config_url+"/msgVpns/"+vpn_name
-        # GET the first level content of this vpn
-        rjson = self.rest("get", url)
-        self.vpn = rjson['data']
-        links = rjson['links']
-
-        # GET all its sub elements
-        self.recursive_get_elements(self.vpn, links)
-        self.remove_default_properties("msgVpns", self.vpn)
-
     def load_def_json(self, element_name):
         # https://importlib-resources.readthedocs.io/en/latest/using.html
         # Reads contents with UTF-8 encoding and returns str.

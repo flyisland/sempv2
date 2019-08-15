@@ -6,6 +6,17 @@ class Mixin:
         self.get_vpn_config(vpn_name)
         print(json.dumps(self.vpn, indent=4))
 
+    def get_vpn_config(self, vpn_name):
+        url = self.config_url+"/msgVpns/"+vpn_name
+        # GET the first level content of this vpn
+        rjson = self.rest("get", url)
+        self.vpn = rjson['data']
+        links = rjson['links']
+
+        # GET all its sub elements
+        self.recursive_get_elements(self.vpn, links)
+        self.remove_default_properties("msgVpns", self.vpn)
+
     def recursive_get_elements(self, data, links):
         for k_uri, url in links.items():
             if (k_uri == "uri"): # ignore link pointed to itself
