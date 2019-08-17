@@ -30,7 +30,7 @@
         "maxRedeliveryCount": 0,
         "maxTtl": 0,
         "owner": "",
-        "permission": "consume",
+        "permission": "no-access",
         "rejectLowPriorityMsgEnabled": false,
         "rejectLowPriorityMsgLimit": 0,
         "rejectMsgToSenderOnDiscardBehavior": "when-queue-enabled",

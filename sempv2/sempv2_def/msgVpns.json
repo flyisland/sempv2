@@ -19,7 +19,7 @@
         "authenticationBasicEnabled": true,
         "authenticationBasicProfileName": "",
         "authenticationBasicRadiusDomain": "",
-        "authenticationBasicType": "internal",
+        "authenticationBasicType": "radius",
         "authenticationClientCertAllowApiProvidedUsernameEnabled": false,
         "authenticationClientCertEnabled": false,
         "authenticationClientCertMaxChainDepth": 3,
