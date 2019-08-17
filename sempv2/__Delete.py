@@ -23,7 +23,7 @@ class Mixin:
         current_url = url+"/"+elements_name+"/"+key_uri
 
         #3. recursively process all sub elements
-        for sub_name in element_def["sub_elements"]:
+        for sub_name in reversed(element_def["sub_elements"]):
             if sub_name not in data: # skip empty elements
                 continue
             for sub_element in data[sub_name]:
