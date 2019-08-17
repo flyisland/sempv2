@@ -2,12 +2,21 @@ import json
 from urllib.parse import quote_plus
 import logging
 from jinja2 import Template
+import os
+from jinja2 import Environment, FileSystemLoader
 
 
 class Mixin:
     def restore(self, filename):
-        with open(filename) as json_file:
-            data = json.loads(Template(json_file.read()).render())
+        filedir=os.path.dirname(os.path.abspath(filename))
+        filename=os.path.basename(filename)
+        e = Environment(
+            loader=FileSystemLoader(filedir), 
+            trim_blocks=True, 
+            lstrip_blocks=True)
+        config_txt = e.get_template(filename).render()
+        print(config_txt)
+        data = json.loads(config_txt)
         self.__post_element(self.config_url, "msgVpns", data)
 
     def __post_element(self, url, elements_name, data):
