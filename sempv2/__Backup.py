@@ -23,9 +23,23 @@ class Mixin:
                 continue
             k_elements = k_uri[:-3]
             
-            rjson = self.rest("get", url)
-            list_of_data = rjson['data']
-            list_of_links = rjson['links']
+            list_of_data = []
+            list_of_links = []
+            hasNextPage = True
+
+            while hasNextPage:
+                rjson = self.rest("get", url)
+                list_of_data.extend(rjson['data'])
+                list_of_links.extend(rjson['links'])
+
+                if "meta" not in rjson:
+                    hasNextPage = False
+                elif "paging" not in rjson["meta"]:
+                    hasNextPage = False
+                elif "nextPageUri" not in rjson["meta"]["paging"]:
+                    hasNextPage = False
+                else:
+                    url=rjson["meta"]["paging"]["nextPageUri"]
 
             if (len(list_of_data)>0): # skip empty elements
                 data[k_elements]=[]

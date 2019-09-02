@@ -10,6 +10,7 @@
         "restDeliveryPoints"
         "sequencedTopics"
         "topicEndpoints"
+x 2019-09-02 support "nextPageUri" in the response
 x 2019-08-15 add template support for config file
 x 2019-08-15 don't touch "Names starting with '#' are reserved" in backup, restore and delete
 x 2019-08-14 remove elements with empty body
