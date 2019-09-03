@@ -1,3 +1,4 @@
+2019-09-03 bug: Not allowed to modify the trusted common name list while the consumer is enabled.
 2019-08-15 support skipping some elements for restore and delete commands
 2019-08-14 add all sempv2 definitions
         "authorizationGroups"
