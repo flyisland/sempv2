@@ -22,6 +22,12 @@ class Mixin:
            return
         current_url = url+"/"+elements_name+"/"+key_uri
 
+        #2.1 "Not allowed to modify sub-elements while the element is enabled."
+        if self.IS_UNABLE_NEEDED_TO_MODIFY_SUBS in element_def:
+            # disable current element fist
+            payload = {"enabled":False}
+            self.rest("patch", current_url, payload)
+
         #3. recursively process all sub elements
         for sub_name in reversed(element_def["sub_elements"]):
             if sub_name not in data: # skip empty elements

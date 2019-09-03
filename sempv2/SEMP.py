@@ -9,6 +9,7 @@ from  sempv2 import __Backup, __Delete, __Restore
 logging.basicConfig(level=logging.INFO)
 
 class SEMPv2(__Backup.Mixin, __Delete.Mixin, __Restore.Mixin):
+    IS_UNABLE_NEEDED_TO_MODIFY_SUBS = "isUnableNeedToModifySubs"
 
     def __init__(self, host="", admin_user="", password=""):
         self.admin_user = admin_user

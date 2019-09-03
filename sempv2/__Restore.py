@@ -41,6 +41,15 @@ class Mixin:
             logging.info("%s: %s" % ("skip", resource_url))
             return
 
+        #4.1 "Not allowed to modify sub-elements while the element is enabled."
+        isEnable = False
+        if self.IS_UNABLE_NEEDED_TO_MODIFY_SUBS in element_def:
+            # disable current element fist
+            if "enabled" in payload:
+                isEnable = payload["enabled"]
+            if isEnable:
+                payload["enabled"]=False
+
         if key_uri in element_def.get("built_in_elements_quote_plus", []):
             # This is a existed built-in element
             # Patch to update existed element
@@ -57,3 +66,8 @@ class Mixin:
                 continue
             for item in data[sub_elements_name]:
                 self.__post_element(resource_url, sub_elements_name, item)
+
+        #6. If needed, Enable this element again after all its sub-elements are settled
+        if isEnable:
+            payload = {"enabled":True}
+            self.rest("patch", resource_url, payload)

@@ -5,6 +5,7 @@
     "sub_elements": [
         "tlsTrustedCommonNames"
     ],
+    "isUnableNeedToModifySubs": true,
     "defaults": {
         "authenticationHttpBasicUsername":"",
         "authenticationScheme":"none",
