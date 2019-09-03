@@ -30,6 +30,7 @@ def backup(sempv2, vpn):
     sempv2.backup_vpn(vpn)
 
 @cli.command()
+@click.confirmation_option()
 @click.argument('vpn')
 @pass_sempv2
 def delete(sempv2, vpn):
