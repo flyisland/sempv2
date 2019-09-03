@@ -10,7 +10,9 @@
     "defaults": {
         "enabled": false,
         "maxTtl": 8,
-        "remoteAuthenticationBasicClientUsername": "default",
+        "remoteAuthenticationBasicClientUsername": "",
+        "remoteAuthenticationClientCertContent": "",
+        "remoteAuthenticationClientCertPassword": "",
         "remoteAuthenticationScheme": "basic",
         "remoteConnectionRetryCount": 0,
         "remoteConnectionRetryDelay": 3,
