@@ -1,0 +1,10 @@
+{
+    "key_names": [
+        "queueBindingName"
+    ],
+    "sub_elements": [],
+    "defaults": {
+        "gatewayReplaceTargetAuthorityEnabled": false,
+        "postRequestTarget": ""
+    }
+}

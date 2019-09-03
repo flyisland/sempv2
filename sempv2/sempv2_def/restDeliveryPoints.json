@@ -1,0 +1,13 @@
+{
+    "key_names": [
+        "restDeliveryPointName"
+    ],
+    "sub_elements": [
+        "queueBindings",
+        "restConsumers"
+    ],
+    "defaults": {
+        "clientProfileName": "default",
+        "enabled": false
+    }
+}

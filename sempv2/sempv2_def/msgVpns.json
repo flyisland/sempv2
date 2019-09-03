@@ -10,7 +10,8 @@
         "jndiConnectionFactories",
         "jndiQueues",
         "jndiTopics",
-        "bridges"
+        "bridges",
+        "restDeliveryPoints"
     ],
     "built_in_elements_quote_plus": [
         "default"

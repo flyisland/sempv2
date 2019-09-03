@@ -7,7 +7,6 @@
         "mqttSessions"
         "replayLogs"
         "replicatedTopics"
-        "restDeliveryPoints"
         "sequencedTopics"
         "topicEndpoints"
 x 2019-09-02 support "nextPageUri" in the response

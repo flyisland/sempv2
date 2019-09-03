@@ -1,0 +1,21 @@
+{
+    "key_names": [
+        "restConsumerName"
+    ],
+    "sub_elements": [
+        "tlsTrustedCommonNames"
+    ],
+    "defaults": {
+        "authenticationHttpBasicUsername":"",
+        "authenticationScheme":"none",
+        "enabled":false,
+        "localInterface":"",
+        "maxPostWaitTime":30,
+        "outgoingConnectionCount":3,
+        "remoteHost":"",
+        "remotePort":8080,
+        "retryDelay":3,
+        "tlsCipherSuiteList":"default",
+        "tlsEnabled":false
+    }
+}
