@@ -2,9 +2,17 @@
 
 ## Goals
 
-[X] Backing up the config of a VPN to a JSON file
-[X] Restore a VPN from a JSON file
-[X] Delete a VPN
+* [X] Backing up the config of a VPN to a JSON file
+* [X] Restore a VPN from a JSON file
+* [X] Delete a VPN
+
+## Installation
+
+Install the package locally with:
+
+```bash
+$ pip install .
+```
 
 ## Usage
 
