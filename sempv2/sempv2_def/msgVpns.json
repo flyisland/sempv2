@@ -4,13 +4,14 @@
     ],
     "sub_elements": [
         "aclProfiles",
+        "bridges",
         "clientProfiles",
         "clientUsernames",
-        "queues",
+        "distributedCaches",
         "jndiConnectionFactories",
         "jndiQueues",
         "jndiTopics",
-        "bridges",
+        "queues",
         "restDeliveryPoints"
     ],
     "built_in_elements_quote_plus": [
