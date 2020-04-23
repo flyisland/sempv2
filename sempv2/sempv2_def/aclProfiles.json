@@ -11,8 +11,5 @@
         "default"
     ],
     "defaults": {
-        "clientConnectDefaultAction": "disallow",
-        "publishTopicDefaultAction": "disallow",
-        "subscribeTopicDefaultAction": "disallow"
     }
 }
