@@ -1,14 +1,15 @@
+2020-04-23 add all sempv2 definitions
+        "authenticationOauthProviders",
+        "authorizationGroups",
+        "mqttRetainCaches",
+        "mqttSessions",
+        "queueTemplates",
+        "replayLogs",
+        "replicatedTopics",
+        "sequencedTopics",
+        "topicEndpointTemplates",
+        "topicEndpoints",
 2019-08-15 support skipping some elements for restore and delete commands
-2019-08-14 add all sempv2 definitions
-        "authorizationGroups"
-        "distributedCaches"
-        "dmrBridges"
-        "mqttRetainCaches"
-        "mqttSessions"
-        "replayLogs"
-        "replicatedTopics"
-        "sequencedTopics"
-        "topicEndpoints"
 x 2019-09-03 bug: Not allowed to modify the trusted common name list while the consumer is enabled.
 x 2019-09-02 support "nextPageUri" in the response
 x 2019-08-15 add template support for config file
