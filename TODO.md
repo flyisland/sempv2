@@ -6,7 +6,6 @@ Backing Up and Restoring Solace PubSub+ VPN Configs with SEMPv2
 
 - [ ] Add Update command, compare the JSON file with online VPN, and perform actions only needed.  
 - [ ] Add --showDefault to Backup command to show  all properties even with default value  
-- [ ] Add  --curl to Restore command to generate curl  command line  
 - [ ] Add definition of "mqttRetainCaches"  
 - [ ] Add definition of "mqttSessions"  
 - [ ] Add definition of "queueTemplates"  
@@ -18,6 +17,7 @@ Backing Up and Restoring Solace PubSub+ VPN Configs with SEMPv2
 
 ### In Progress
 
+- [ ] Add  --curl to Restore command to generate curl  command line  
 
 ### Done ✓
 

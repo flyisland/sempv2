@@ -4,7 +4,7 @@ from importlib_resources import read_text
 from urllib.parse import quote_plus
 import logging
 
-from  sempv2 import __Backup, __Delete, __Restore
+from . import __Backup, __Delete, __Restore
 
 logging.basicConfig(level=logging.INFO)
 
@@ -20,7 +20,7 @@ class SEMPv2(__Backup.Mixin, __Delete.Mixin, __Restore.Mixin):
         # https://importlib-resources.readthedocs.io/en/latest/using.html
         # Reads contents with UTF-8 encoding and returns str.
         return json.loads(read_text('sempv2.sempv2_def', element_name+'.json'))
-        
+
     
     def rest(self, verb, url, data_json=None):
         auth=(self.admin_user, self.password)
@@ -28,7 +28,6 @@ class SEMPv2(__Backup.Mixin, __Delete.Mixin, __Restore.Mixin):
         r = getattr(requests, verb)(url, headers={"content-type": "application/json"},
             auth=(self.admin_user, self.password),
             data=(json.dumps(data_json) if data_json != None else None))
-        rjson = r.json()
         if (r.status_code != 200):
             print(r.text)
             raise RuntimeError
