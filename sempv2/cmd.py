@@ -37,13 +37,20 @@ def delete(sempv2, vpn):
     """Delete the VPN"""
     sempv2.delete_vpn(vpn)
 
-
 @cli.command()
 @click.argument('config-file', type=click.Path(exists=True))
 @pass_sempv2
 def restore(sempv2, config_file):
     """Restore the VPN with the configuration file"""
     sempv2.restore(config_file)
+
+@cli.command()
+@click.argument('config-file', type=click.Path(exists=True))
+@pass_sempv2
+def update(sempv2, config_file):
+    """Update the VPN with the configuration file"""
+    sempv2.update(config_file)
+
 
 if __name__ == '__main__':
     cli()

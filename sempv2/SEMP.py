@@ -4,11 +4,11 @@ from importlib_resources import read_text
 from urllib.parse import quote_plus
 import logging
 
-from  sempv2 import __Backup, __Delete, __Restore
+from  sempv2 import __Backup, __Delete, __Restore, __Update
 
 logging.basicConfig(level=logging.INFO)
 
-class SEMPv2(__Backup.Mixin, __Delete.Mixin, __Restore.Mixin):
+class SEMPv2(__Backup.Mixin, __Delete.Mixin, __Restore.Mixin, __Update.Mixin):
     IS_UNABLE_NEEDED_TO_MODIFY_SUBS = "isUnableNeedToModifySubs"
 
     def __init__(self, host="", admin_user="", password=""):
