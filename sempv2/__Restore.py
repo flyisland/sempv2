@@ -5,7 +5,7 @@ from jinja2 import Template
 import os
 from jinja2 import Environment, FileSystemLoader
 
-from  .util import append_rest_commands
+from  .util import append_rest_commands, build_curl_commands
 
 class Mixin:
     def restore(self, filename):
@@ -20,9 +20,7 @@ class Mixin:
         data = json.loads(config_txt)
         rest_commands = []
         self.__post_element(rest_commands, "", "msgVpns", data)
-        for c in rest_commands:
-            print("{} {} {}".format(c["verb"], c["url"], c["key_uri"]))
-            print(json.dumps(c["data_json"]))
+        build_curl_commands(rest_commands, self.config_url, self.admin_user, self.password)
 
     def __post_element(self, rest_commands, url, elements_name, data):
         #1. load definition of this element
