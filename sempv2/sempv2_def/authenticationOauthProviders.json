@@ -1,0 +1,29 @@
+{
+    "key_names": [
+        "oauthProviderName"
+    ],
+    "sub_elements": [],
+    "built_in_elements_quote_plus": [],
+    "defaults": {
+        "audienceClaimName": "aud",
+        "audienceClaimSource": "id-token",
+        "audienceClaimValue": "",
+        "audienceValidationEnabled": false,
+        "authorizationGroupClaimName": "scope",
+        "authorizationGroupClaimSource": "id-token",
+        "authorizationGroupEnabled": false,
+        "disconnectOnTokenExpirationEnabled": true,
+        "enabled": false,
+        "jwksRefreshInterval": 86400,
+        "jwksUri": "",
+        "tokenIgnoreTimeLimitsEnabled": false,
+        "tokenIntrospectionParameterName": "token",
+        "tokenIntrospectionTimeout": 1,
+        "tokenIntrospectionUri": "",
+        "tokenIntrospectionUsername": "",
+        "tokenIntrospectionPassword": "",
+        "usernameClaimName": "sub",
+        "usernameClaimSource": "id-token",
+        "usernameValidateEnabled": false
+    }
+}

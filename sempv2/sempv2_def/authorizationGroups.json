@@ -1,0 +1,14 @@
+{
+    "key_names": [
+        "authorizationGroupName"
+    ],
+    "sub_elements": [],
+    "built_in_elements_quote_plus": [],
+    "defaults": {
+        "aclProfileName": "default",
+        "clientProfileName": "default",
+        "enabled": false,
+        "orderAfterAuthorizationGroupName": "",
+        "orderBeforeAuthorizationGroupName": ""
+    }
+}

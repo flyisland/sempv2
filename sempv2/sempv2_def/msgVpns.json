@@ -4,6 +4,8 @@
     ],
     "sub_elements": [
         "aclProfiles",
+        "authenticationOauthProviders",
+        "authorizationGroups",
         "bridges",
         "clientProfiles",
         "clientUsernames",

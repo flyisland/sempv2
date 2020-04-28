@@ -4,26 +4,25 @@ Backing Up and Restoring Solace PubSub+ VPN Configs with SEMPv2
 
 ### Todo
 
-- [ ] Add Update command, compare the JSON file with online VPN, and perform actions only needed.
+- [ ] Add Update command, compare the JSON file with online VPN, and perform actions only needed.  
 - [ ] Add --showDefault to Backup command to show  all properties even with default value  
 - [ ] Add  --curl to Restore command to generate curl  command line  
-- [ ] Add definition of "authenticationOauthProviders"
-- [ ] Add definition of "authorizationGroups"
-- [ ] Add definition of "mqttRetainCaches"
-- [ ] Add definition of "mqttSessions"
-- [ ] Add definition of "queueTemplates"
-- [ ] Add definition of "replayLogs"
-- [ ] Add definition of "replicatedTopics"
-- [ ] Add definition of "sequencedTopics"
-- [ ] Add definition of "topicEndpointTemplates"
-- [ ] Add definition of "topicEndpoints"
-
+- [ ] Add definition of "mqttRetainCaches"  
+- [ ] Add definition of "mqttSessions"  
+- [ ] Add definition of "queueTemplates"  
+- [ ] Add definition of "replayLogs"  
+- [ ] Add definition of "replicatedTopics"  
+- [ ] Add definition of "sequencedTopics"  
+- [ ] Add definition of "topicEndpointTemplates"  
+- [ ] Add definition of "topicEndpoints"  
 
 ### In Progress
 
 
 ### Done ✓
 
+- [x] Add definition of "authorizationGroups"  
+- [x] Add definition of "authenticationOauthProviders"  
 - bug: Not allowed to modify the trusted common name list while the consumer is enabled. 2019-09-03  
 - support "nextPageUri" in the response 2019-09-02  
 - add template support for config file 2019-08-15  
