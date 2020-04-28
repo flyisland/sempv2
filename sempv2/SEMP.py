@@ -22,16 +22,18 @@ class SEMPv2(__Backup.Mixin, __Delete.Mixin, __Restore.Mixin, __Update.Mixin):
         return json.loads(read_text('sempv2.sempv2_def', element_name+'.json'))
         
     
-    def rest(self, verb, url, data_json=None):
+    def rest(self, verb, url, data_json=None, return_error_status=False):
         auth=(self.admin_user, self.password)
         headers={"content-type": "application/json"}
         r = getattr(requests, verb)(url, headers={"content-type": "application/json"},
             auth=(self.admin_user, self.password),
             data=(json.dumps(data_json) if data_json != None else None))
-        rjson = r.json()
         if (r.status_code != 200):
-            print(r.text)
-            raise RuntimeError
+            if (return_error_status):
+                return r
+            else:
+                print(r.text)
+                raise RuntimeError
         else:
             return r.json()
 
