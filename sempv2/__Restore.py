@@ -8,6 +8,10 @@ from jinja2 import Environment, FileSystemLoader
 
 class Mixin:
     def restore(self, filename):
+        data = self.read_config_file(filename)
+        self.__post_element(self.config_url, "msgVpns", data)
+
+    def read_config_file(self, filename):
         filedir=os.path.dirname(os.path.abspath(filename))
         filename=os.path.basename(filename)
         e = Environment(
@@ -15,9 +19,7 @@ class Mixin:
             trim_blocks=True, 
             lstrip_blocks=True)
         config_txt = e.get_template(filename).render()
-        print(config_txt)
-        data = json.loads(config_txt)
-        self.__post_element(self.config_url, "msgVpns", data)
+        return json.loads(config_txt)
 
     def __post_element(self, url, elements_name, data):
         #1. load definition of this element
