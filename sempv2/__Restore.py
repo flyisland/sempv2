@@ -11,7 +11,7 @@ class Mixin:
     def restore(self, filename):
         data = self.read_config_file(filename)
         rest_commands = []
-        self.__post_element(rest_commands, "", "msgVpns", data)
+        self.generate_restore_commands(rest_commands, "", "msgVpns", data)
         if(self.curl_command):
             build_curl_commands(rest_commands, self.config_url, self.admin_user, self.password)
         else:
@@ -29,7 +29,8 @@ class Mixin:
         config_txt = e.get_template(filename).render()
         return json.loads(config_txt)
 
-    def __post_element(self, rest_commands, url, elements_name, data):
+    def generate_restore_commands(self, rest_commands, url, elements_name, data):
+        """ Generate rest commands to restore resources from `data` """
         #1. load definition of this element
         element_def = self.load_def_json(elements_name)
 
@@ -73,7 +74,7 @@ class Mixin:
             if sub_elements_name not in data:
                 continue
             for item in data[sub_elements_name]:
-                self.__post_element(rest_commands, resource_url, sub_elements_name, item)
+                self.generate_restore_commands(rest_commands, resource_url, sub_elements_name, item)
 
         #6. If needed, Enable this element again after all its sub-elements are settled
         if isEnable:
