@@ -43,7 +43,7 @@ class Mixin:
         #3. build collention url and resource url for this element
         key_uri = self.build_key_uri(data, element_def)
         collention_url = url+"/"+elements_name
-        resource_url = collention_url+"/"+key_uri
+        object_url = collention_url+"/"+key_uri
 
         #4. post or patch to create this resource
         if key_uri.startswith("%23"):
@@ -64,7 +64,7 @@ class Mixin:
             # This is a existed built-in element
             # Patch to update existed element
             
-            append_rest_commands(rest_commands, "patch", resource_url, key_uri, payload)
+            append_rest_commands(rest_commands, "patch", object_url, key_uri, payload)
         else:
             # Post to create new element
             append_rest_commands(rest_commands, "post", collention_url, key_uri, payload)
@@ -74,9 +74,9 @@ class Mixin:
             if sub_elements_name not in data:
                 continue
             for item in data[sub_elements_name]:
-                self.generate_restore_commands(rest_commands, resource_url, sub_elements_name, item)
+                self.generate_restore_commands(rest_commands, object_url, sub_elements_name, item)
 
         #6. If needed, Enable this element again after all its sub-elements are settled
         if isEnable:
             payload = {"enabled":True}
-            append_rest_commands(rest_commands, "patch", resource_url, key_uri, payload)
+            append_rest_commands(rest_commands, "patch", object_url, key_uri, payload)

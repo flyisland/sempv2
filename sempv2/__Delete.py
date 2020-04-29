@@ -20,21 +20,21 @@ class Mixin:
             # Names starting with '#'->'%23' are reserved 
             # skip the delete operation
            return
-        current_url = url+"/"+elements_name+"/"+key_uri
+        object_url = url+"/"+elements_name+"/"+key_uri
 
         #2.1 "Not allowed to modify sub-elements while the element is enabled."
         if self.IS_UNABLE_NEEDED_TO_MODIFY_SUBS in element_def:
             # disable current element fist
             payload = {"enabled":False}
-            self.rest("patch", current_url, payload)
+            self.rest("patch", object_url, payload)
 
         #3. recursively process all sub elements
         for sub_name in reversed(element_def["sub_elements"]):
             if sub_name not in data: # skip empty elements
                 continue
             for sub_element in data[sub_name]:
-                self.__delete_elements(current_url, sub_name, sub_element)
+                self.__delete_elements(object_url, sub_name, sub_element)
 
         #4. delete current element
-        logging.info("delete: %s" % (current_url))
-        self.rest("delete", current_url)
+        logging.info("delete: %s" % (object_url))
+        self.rest("delete", object_url)
