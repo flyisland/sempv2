@@ -12,15 +12,17 @@ pass_sempv2 = click.make_pass_decorator(SEMPv2)
     envvar='SOL_ADMIN_PWD', help='The password of the management user, could be set by env variable [SOL_ADMIN_PWD]')
 @click.option('-h', '--host', default='http://localhost:8080', show_default=True,
     help='URL to access the management endpoint of the broker')
+@click.option('-c', '--curl-command', default=False, show_default=True, is_flag=True,
+    help='Output the curl commands instead of executing SEMPv2 commands.')
 @click.pass_context
-def cli(ctx, admin_user, admin_password, host):
+def cli(ctx, admin_user, admin_password, host, curl_command):
     """Backing Up and Restoring Solace PubSub+ VPN Configs with SEMPv2 protocol"""
 
     # Create a sempv2 object and remember it as as the context object.  From
     # this point onwards other commands can refer to it by using the
     # @pass_sempv2 decorator.
 
-    ctx.obj = SEMPv2(host, admin_user, admin_password)
+    ctx.obj = SEMPv2(host, admin_user, admin_password, curl_command)
 
 @cli.command()
 @click.argument('vpn')

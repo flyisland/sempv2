@@ -17,10 +17,10 @@ Backing Up and Restoring Solace PubSub+ VPN Configs with SEMPv2
 
 ### In Progress
 
-- [ ] Add  --curl to Restore command to generate curl  command line  
 
 ### Done ✓
 
+- [x] Add  --curl to Restore command to generate curl  command line  
 - [x] Add definition of "authorizationGroups"  
 - [x] Add definition of "authenticationOauthProviders"  
 - bug: Not allowed to modify the trusted common name list while the consumer is enabled. 2019-09-03  

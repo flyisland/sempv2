@@ -20,7 +20,10 @@ class Mixin:
         data = json.loads(config_txt)
         rest_commands = []
         self.__post_element(rest_commands, "", "msgVpns", data)
-        build_curl_commands(rest_commands, self.config_url, self.admin_user, self.password)
+        if(self.curl_command):
+            build_curl_commands(rest_commands, self.config_url, self.admin_user, self.password)
+        else:
+            self.exec_commands(rest_commands)
 
     def __post_element(self, rest_commands, url, elements_name, data):
         #1. load definition of this element
