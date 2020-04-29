@@ -4,24 +4,30 @@ from importlib_resources import read_text
 from urllib.parse import quote_plus
 import logging
 
-from  sempv2 import __Backup, __Delete, __Restore, __Update
+from  . import __Backup, __Delete, __Restore, __Update
 
 logging.basicConfig(level=logging.INFO)
 
 class SEMPv2(__Backup.Mixin, __Delete.Mixin, __Restore.Mixin, __Update.Mixin):
     IS_UNABLE_NEEDED_TO_MODIFY_SUBS = "isUnableNeedToModifySubs"
 
-    def __init__(self, host="", admin_user="", password=""):
+    def __init__(self, host="", admin_user="", password="", curl_command=False):
         self.admin_user = admin_user
         self.password = password
         self.config_url = host + "/SEMP/v2/config"
+        self.curl_command = curl_command
 
     def load_def_json(self, element_name):
         # https://importlib-resources.readthedocs.io/en/latest/using.html
         # Reads contents with UTF-8 encoding and returns str.
         return json.loads(read_text('sempv2.sempv2_def', element_name+'.json'))
-        
+
     
+    def exec_rest_commands(self, rest_commands):
+        for c in rest_commands:
+            logging.info("{:<6} {}".format(c["verb"].upper(), c["url"]))
+            self.rest(c["verb"], self.config_url+c["url"], c["data_json"])
+
     def rest(self, verb, url, data_json=None, return_error_status=False):
         auth=(self.admin_user, self.password)
         headers={"content-type": "application/json"}

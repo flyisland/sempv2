@@ -5,7 +5,6 @@ Backing Up and Restoring Solace PubSub+ VPN Configs with SEMPv2
 ### Todo
 
 - [ ] Add --showDefault to Backup command to show  all properties even with default value  
-- [ ] Add  --curl to Restore command to generate curl  command line  
 - [ ] Add definition of "mqttRetainCaches"  
 - [ ] Add definition of "mqttSessions"  
 - [ ] Add definition of "queueTemplates"  
@@ -21,6 +20,7 @@ Backing Up and Restoring Solace PubSub+ VPN Configs with SEMPv2
 
 ### Done ✓
 
+- [x] Add  --curl to Restore command to generate curl  command line  
 - [x] Add definition of "authorizationGroups"  
 - [x] Add definition of "authenticationOauthProviders"  
 - bug: Not allowed to modify the trusted common name list while the consumer is enabled. 2019-09-03  

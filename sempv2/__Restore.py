@@ -5,13 +5,21 @@ from jinja2 import Template
 import os
 from jinja2 import Environment, FileSystemLoader
 
+from  .util import append_rest_commands, build_curl_commands
 
 class Mixin:
     def restore(self, filename):
         data = self.read_config_file(filename)
-        self.__post_element(self.config_url, "msgVpns", data)
+        rest_commands = []
+        self.__post_element(rest_commands, "", "msgVpns", data)
+        if(self.curl_command):
+            build_curl_commands(rest_commands, self.config_url, self.admin_user, self.password)
+        else:
+            self.exec_rest_commands(rest_commands)
 
     def read_config_file(self, filename):
+        """Read the config json file and perform jinja2 templating"""
+        
         filedir=os.path.dirname(os.path.abspath(filename))
         filename=os.path.basename(filename)
         e = Environment(
@@ -21,7 +29,7 @@ class Mixin:
         config_txt = e.get_template(filename).render()
         return json.loads(config_txt)
 
-    def __post_element(self, url, elements_name, data):
+    def __post_element(self, rest_commands, url, elements_name, data):
         #1. load definition of this element
         element_def = self.load_def_json(elements_name)
 
@@ -40,7 +48,6 @@ class Mixin:
         if key_uri.startswith("%23"):
             # Names starting with '#'->'%23' are reserved 
             # skip the restore operation
-            logging.info("%s: %s" % ("skip", resource_url))
             return
 
         #4.1 "Not allowed to modify sub-elements while the element is enabled."
@@ -55,21 +62,20 @@ class Mixin:
         if key_uri in element_def.get("built_in_elements_quote_plus", []):
             # This is a existed built-in element
             # Patch to update existed element
-            logging.info("%s: %s" % ("patch", resource_url))
-            self.rest("patch", resource_url, payload)
+            
+            append_rest_commands(rest_commands, "patch", resource_url, key_uri, payload)
         else:
             # Post to create new element
-            logging.info("%s: %s with (%s)" % ("create", collention_url, key_uri))
-            self.rest("post", collention_url, payload)
+            append_rest_commands(rest_commands, "post", collention_url, key_uri, payload)
 
         #5. recursively process all sub elements
         for sub_elements_name in element_def["sub_elements"]:
             if sub_elements_name not in data:
                 continue
             for item in data[sub_elements_name]:
-                self.__post_element(resource_url, sub_elements_name, item)
+                self.__post_element(rest_commands, resource_url, sub_elements_name, item)
 
         #6. If needed, Enable this element again after all its sub-elements are settled
         if isEnable:
             payload = {"enabled":True}
-            self.rest("patch", resource_url, payload)
+            append_rest_commands(rest_commands, "patch", resource_url, key_uri, payload)
