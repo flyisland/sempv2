@@ -18,6 +18,9 @@ def build_curl_commands(commands, config_url="", admin_user="", password=""):
 
     for c in commands:
         print("")
-        print("curl -X {} -u $ADMIN:$PWD $HOST{} \\".format(c["verb"].upper(), c["url"]))
-        print("-H 'content-type: application/json' -d '")
-        print(json.dumps(c["data_json"], indent=2)+"'")
+        curl_cmd = "curl -X {} -u $ADMIN:$PWD $HOST{}".format(c["verb"].upper(), c["url"])
+        if (c["data_json"] !=None):
+            curl_cmd += """ \\
+-H 'content-type: application/json' -d '
+{}'""".format(json.dumps(c["data_json"], indent=2))
+        print(curl_cmd)

@@ -1,12 +1,20 @@
 import logging
 
+from .util import append_rest_commands, build_curl_commands
+
 class Mixin:
 
     def delete_vpn(self, vpn_name):
-            self.get_vpn_config(vpn_name)
-            self.__delete_elements(self.config_url, "msgVpns", self.vpn)
+        self.get_vpn_config(vpn_name)
+        rest_commands = []
+        self.generate_delete_commands(rest_commands, "", "msgVpns", self.vpn)
+        if(self.curl_command):
+            build_curl_commands(rest_commands, self.config_url, self.admin_user, self.password)
+        else:
+            self.exec_rest_commands(rest_commands)
+
         
-    def __delete_elements(self, url, elements_name, data):
+    def generate_delete_commands(self, rest_commands, url, elements_name, data):
         #1. read json file
         element_def = self.load_def_json(elements_name)
 
@@ -26,15 +34,14 @@ class Mixin:
         if self.IS_UNABLE_NEEDED_TO_MODIFY_SUBS in element_def:
             # disable current element fist
             payload = {"enabled":False}
-            self.rest("patch", object_url, payload)
+            append_rest_commands(rest_commands, "patch", object_url, key_uri, payload)
 
         #3. recursively process all sub elements
         for sub_name in reversed(element_def["sub_elements"]):
             if sub_name not in data: # skip empty elements
                 continue
             for sub_element in data[sub_name]:
-                self.__delete_elements(object_url, sub_name, sub_element)
+                self.generate_delete_commands(rest_commands, object_url, sub_name, sub_element)
 
         #4. delete current element
-        logging.info("delete: %s" % (object_url))
-        self.rest("delete", object_url)
+        append_rest_commands(rest_commands, "delete", object_url, key_uri)
