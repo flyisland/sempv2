@@ -85,8 +85,16 @@ class Mixin:
 
         #8. If needed, Enable this element again after all its sub-objects are settled
         if is_unable_needed:
-            payload = {"enabled":True}
-            append_rest_commands(rest_commands, "patch", object_url, key_uri, payload)
+            if len(rest_commands) == current_list_len:
+                # no sub-objects needs to process, so no need to set enabled=False
+                if {"enabled":False} == rest_commands[-1].data_json:
+                    # new_payload == old_payload: nothing to do
+                    rest_commands.pop(-1)
+                else:
+                    rest_commands[-1].data_json["enabled":True]
+            else:
+                payload = {"enabled":True}
+                append_rest_commands(rest_commands, "patch", object_url, key_uri, payload)
 
         return
 
