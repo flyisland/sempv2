@@ -2,6 +2,14 @@ import json
 
 # helper functions
 
+def extract_payload(element_def, object_json):
+    payload = {}
+    for k in object_json:
+        if k not in element_def["sub_elements"]:
+            payload[k] = object_json[k]
+    return payload
+
+
 def append_rest_commands(commands, verb, url, key_uri="", data_json=None):
     commands.append({"verb":verb, 
         "url": url, 
