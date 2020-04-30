@@ -13,13 +13,14 @@ Backing Up and Restoring Solace PubSub+ VPN Configs with SEMPv2
 - [ ] Add definition of "sequencedTopics"  
 - [ ] Add definition of "topicEndpointTemplates"  
 - [ ] Add definition of "topicEndpoints"  
+- [ ] Tools, auto generate definition fils from  SEMPv2 open api  
 
 ### In Progress
 
-- [ ] Add Update command, compare the JSON file with online VPN, and perform actions only needed.  
 
 ### Done ✓
 
+- [x] Add Update command, compare the JSON file with online VPN, and perform actions only needed.  
 - [x] Add  --curl to Restore command to generate curl  command line  
 - [x] Add definition of "authorizationGroups"  
 - [x] Add definition of "authenticationOauthProviders"  
