@@ -5,7 +5,7 @@ from jinja2 import Template
 import os
 from jinja2 import Environment, FileSystemLoader
 
-from  .util import append_rest_commands, build_curl_commands
+from .util import *
 
 class Mixin:
     def restore(self, filename):
@@ -35,10 +35,7 @@ class Mixin:
         element_def = self.load_def_json(elements_name)
 
         #2. extract the payload of this element
-        payload = {}
-        for k in data:
-            if k not in element_def["sub_elements"]:
-                payload[k] = data[k]
+        payload = extract_payload(element_def, data)
 
         #3. build collention url and resource url for this element
         key_uri = self.build_key_uri(data, element_def)
