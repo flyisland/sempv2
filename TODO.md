@@ -4,6 +4,8 @@ Backing Up and Restoring Solace PubSub+ VPN Configs with SEMPv2
 
 ### Todo
 
+- [ ] add --include-password to  enable/disable whether to update the read-only property "password"  
+- [ ] Tools, auto generate definition fils from  SEMPv2 open api  
 - [ ] Add --showDefault to Backup command to show  all properties even with default value  
 - [ ] Add definition of "mqttRetainCaches"  
 - [ ] Add definition of "mqttSessions"  
@@ -13,7 +15,6 @@ Backing Up and Restoring Solace PubSub+ VPN Configs with SEMPv2
 - [ ] Add definition of "sequencedTopics"  
 - [ ] Add definition of "topicEndpointTemplates"  
 - [ ] Add definition of "topicEndpoints"  
-- [ ] Tools, auto generate definition fils from  SEMPv2 open api  
 
 ### In Progress
 
