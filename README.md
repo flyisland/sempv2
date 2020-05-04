@@ -19,6 +19,7 @@ $ pip install .
 Run `sempv2` to show the help message:
 
 ```bash
+$ sempv2 --help
 Usage: sempv2 [OPTIONS] COMMAND [ARGS]...
 
   Backing Up and Restoring Solace PubSub+ VPN Configs with SEMPv2 protocol
@@ -30,12 +31,14 @@ Options:
                              by env variable [SOL_ADMIN_PWD]  [default: admin]
   -h, --host TEXT            URL to access the management endpoint of the
                              broker  [default: http://localhost:8080]
+  -v, --verbose              Enables verbose mode.
   --help                     Show this message and exit.
 
 Commands:
-  backup   Fetch the whole configuration of a VPN
+  backup   Fetches the whole configuration of a VPN
   delete   Delete the VPN
   restore  Restore the VPN with the configuration file
+  update   Update the VPN with the configuration file
 ```
 
 ## Jinja2 Template

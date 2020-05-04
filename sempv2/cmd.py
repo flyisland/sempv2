@@ -28,7 +28,7 @@ def cli(ctx, admin_user, admin_password, host, verbose):
 @click.argument('vpn')
 @pass_sempv2
 def backup(sempv2, vpn):
-    """Fetchs the whole configuration of a VPN"""
+    """Fetches the whole configuration of a VPN"""
     sempv2.backup_vpn(vpn)
 
 @cli.command()
