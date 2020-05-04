@@ -1,7 +1,8 @@
 from  .util import *
+import logging
 
 class Mixin:
-    def update(self, filename, curl_command):
+    def update(self, filename, curl_command, update_password):
         # 1. load config from file first
         data = self.read_config_file(filename)
         self.remove_default_properties("msgVpns", data)
@@ -11,8 +12,17 @@ class Mixin:
         self.get_vpn_config(msgVpnName)
 
         # 3. generate update rest commands
+        if(self.verbose):
+            logging.info("About to update the online vpn '{}/msgVpns/{}' with file '{}'".format
+                (self.config_url, msgVpnName, filename))
+        self.update_password = update_password
         rest_commands = []
         self.generate_update_commands(rest_commands, "", "msgVpns", data, self.vpn)
+
+        if(len(rest_commands) == 0):
+            logging.info("The config file '{}' is identical to the online vpn '{}'.".format(filename, msgVpnName))
+            return
+
         if(curl_command):
             build_curl_commands(rest_commands, self.config_url, self.admin_user, self.password)
         else:
@@ -44,6 +54,10 @@ class Mixin:
             # disable current element fist
             if "enabled" in new_payload:
                 is_unable_needed = new_payload["enabled"]
+
+        if not self.update_password and "password" in new_json:
+            new_payload.pop("password")
+            logging.info("'password' of {} will not be updated!".format(object_url))
 
         if new_payload == old_payload:
             # same payload, no need to update other properties
