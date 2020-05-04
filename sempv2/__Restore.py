@@ -8,11 +8,13 @@ from jinja2 import Environment, FileSystemLoader
 from .util import *
 
 class Mixin:
-    def restore(self, filename):
+    def restore(self, filename, curl_command):
+        if(self.verbose):
+            logging.info("About to restore a vpn with file '{}'".format(filename))
         data = self.read_config_file(filename)
         rest_commands = []
         self.generate_restore_commands(rest_commands, "", "msgVpns", data)
-        if(self.curl_command):
+        if(curl_command):
             build_curl_commands(rest_commands, self.config_url, self.admin_user, self.password)
         else:
             self.exec_rest_commands(rest_commands)

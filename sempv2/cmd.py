@@ -35,7 +35,7 @@ def backup(sempv2, vpn):
 @click.confirmation_option()
 @click.argument('vpn')
 @click.option('-c', '--curl-command', default=False, show_default=True, is_flag=True,
-    help='Output the curl commands only')
+    help='Output curl commands only')
 @pass_sempv2
 def delete(sempv2, vpn, curl_command):
     """Delete the VPN"""
@@ -43,10 +43,12 @@ def delete(sempv2, vpn, curl_command):
 
 @cli.command()
 @click.argument('config-file', type=click.Path(exists=True))
+@click.option('-c', '--curl-command', default=False, show_default=True, is_flag=True,
+    help='Output curl commands only')
 @pass_sempv2
-def restore(sempv2, config_file):
+def restore(sempv2, config_file, curl_command):
     """Restore the VPN with the configuration file"""
-    sempv2.restore(config_file)
+    sempv2.restore(config_file, curl_command)
 
 @cli.command()
 @click.argument('config-file', type=click.Path(exists=True))
