@@ -52,10 +52,12 @@ def restore(sempv2, config_file, curl_command):
 
 @cli.command()
 @click.argument('config-file', type=click.Path(exists=True))
+@click.option('-c', '--curl-command', default=False, show_default=True, is_flag=True,
+    help='Output curl commands only')
 @pass_sempv2
-def update(sempv2, config_file):
+def update(sempv2, config_file, curl_command):
     """Update the VPN with the configuration file"""
-    sempv2.update(config_file)
+    sempv2.update(config_file, curl_command)
 
 
 if __name__ == '__main__':

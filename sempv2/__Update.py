@@ -1,7 +1,7 @@
 from  .util import *
 
 class Mixin:
-    def update(self, filename):
+    def update(self, filename, curl_command):
         # 1. load config from file first
         data = self.read_config_file(filename)
         self.remove_default_properties("msgVpns", data)
@@ -13,7 +13,7 @@ class Mixin:
         # 3. generate update rest commands
         rest_commands = []
         self.generate_update_commands(rest_commands, "", "msgVpns", data, self.vpn)
-        if(self.curl_command):
+        if(curl_command):
             build_curl_commands(rest_commands, self.config_url, self.admin_user, self.password)
         else:
             self.exec_rest_commands(rest_commands)
