@@ -4,11 +4,13 @@ from .util import append_rest_commands, build_curl_commands
 
 class Mixin:
 
-    def delete_vpn(self, vpn_name):
+    def delete_vpn(self, vpn_name, curl_command):
+        if(self.verbose):
+            logging.info("About to delete the vpn, "+ self.config_url+"/msgVpns/"+vpn_name)
         self.get_vpn_config(vpn_name)
         rest_commands = []
         self.generate_delete_commands(rest_commands, "", "msgVpns", self.vpn)
-        if(self.curl_command):
+        if(curl_command):
             build_curl_commands(rest_commands, self.config_url, self.admin_user, self.password)
         else:
             self.exec_rest_commands(rest_commands)

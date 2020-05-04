@@ -16,6 +16,7 @@ class SEMPv2(__Backup.Mixin, __Delete.Mixin, __Restore.Mixin, __Update.Mixin):
         self.password = password
         self.config_url = host + "/SEMP/v2/config"
         self.curl_command = curl_command
+        self.verbose=False
 
     def load_def_json(self, element_name):
         # https://importlib-resources.readthedocs.io/en/latest/using.html

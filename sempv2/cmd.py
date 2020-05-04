@@ -12,32 +12,34 @@ pass_sempv2 = click.make_pass_decorator(SEMPv2)
     envvar='SOL_ADMIN_PWD', help='The password of the management user, could be set by env variable [SOL_ADMIN_PWD]')
 @click.option('-h', '--host', default='http://localhost:8080', show_default=True,
     help='URL to access the management endpoint of the broker')
-@click.option('-c', '--curl-command', default=False, show_default=True, is_flag=True,
-    help='Output the curl commands instead of executing SEMPv2 commands.')
+@click.option("--verbose", "-v", is_flag=True, help="Enables verbose mode.")
 @click.pass_context
-def cli(ctx, admin_user, admin_password, host, curl_command):
+def cli(ctx, admin_user, admin_password, host, verbose):
     """Backing Up and Restoring Solace PubSub+ VPN Configs with SEMPv2 protocol"""
 
     # Create a sempv2 object and remember it as as the context object.  From
     # this point onwards other commands can refer to it by using the
     # @pass_sempv2 decorator.
 
-    ctx.obj = SEMPv2(host, admin_user, admin_password, curl_command)
+    ctx.obj = SEMPv2(host, admin_user, admin_password)
+    ctx.obj.verbose = verbose
 
 @cli.command()
 @click.argument('vpn')
 @pass_sempv2
 def backup(sempv2, vpn):
-    """Fetch the whole configuration of a VPN"""
+    """Fetchs the whole configuration of a VPN"""
     sempv2.backup_vpn(vpn)
 
 @cli.command()
 @click.confirmation_option()
 @click.argument('vpn')
+@click.option('-c', '--curl-command', default=False, show_default=True, is_flag=True,
+    help='Output the curl commands only')
 @pass_sempv2
-def delete(sempv2, vpn):
+def delete(sempv2, vpn, curl_command):
     """Delete the VPN"""
-    sempv2.delete_vpn(vpn)
+    sempv2.delete_vpn(vpn, curl_command)
 
 @cli.command()
 @click.argument('config-file', type=click.Path(exists=True))
