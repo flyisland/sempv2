@@ -4,6 +4,7 @@ Backing Up and Restoring Solace PubSub+ VPN Configs with SEMPv2
 
 ### Todo
 
+- [ ] Click with sub-command options  
 - [ ] add --include-password to  enable/disable whether to update the read-only property "password"  
 - [ ] Tools, auto generate definition fils from  SEMPv2 open api  
 - [ ] Add --showDefault to Backup command to show  all properties even with default value  
