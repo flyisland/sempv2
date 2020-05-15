@@ -7,6 +7,7 @@ from .util import BROKER_OPTIONS
 from .backup import backup_vpn
 from .delete import delete_vpn
 from .restore import restore_vpn
+from .update import update_vpn
 
 pass_sempv2 = click.make_pass_decorator(SEMPv2)
 
@@ -62,6 +63,16 @@ def delete(vpn_name, curl_command):
 def restore( config_file, curl_command):
     """Restore the VPN with the configuration file"""
     restore_vpn(config_file, curl_command)
+
+@vpn.command()
+@click.argument('config-file', type=click.Path(exists=True))
+@click.option('-c', '--curl-command', default=False, show_default=True, is_flag=True,
+    help='Output curl commands only')
+@click.option('-u', '--update-password', default=False, show_default=True, is_flag=True,
+    help='Whether to update passwords')
+def update(config_file, curl_command, update_password):
+    """Update the VPN with the configuration file"""
+    update_vpn(config_file, curl_command, update_password)
 
 
 #--------------------------------
