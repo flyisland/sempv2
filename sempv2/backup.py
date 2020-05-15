@@ -8,7 +8,6 @@ def backup_vpn(vpn_name):
 
 def get_obj_config(top_coll_name, obj_name):
     url = "{}/{}/{}".format(BROKER_OPTIONS["config_url"], top_coll_name, obj_name)
-    print(url)
     
     # GET the first level content of this object
     rjson = rest("get", url)

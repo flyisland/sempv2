@@ -5,6 +5,7 @@ from sempv2.SEMP import SEMPv2
 from .sempv2_defs import SEMPV2_BASE_PATH
 from .util import BROKER_OPTIONS
 from .backup import backup_vpn
+from .delete import delete_vpn
 
 pass_sempv2 = click.make_pass_decorator(SEMPv2)
 
@@ -40,10 +41,20 @@ def vpn(ctx):
 
 @vpn.command()
 @click.argument('vpn_name')
-@pass_sempv2
-def backup(sempv2, vpn_name):
+def backup(vpn_name):
     """Fetches the whole configuration of a VPN"""
     backup_vpn(vpn_name)
+
+@vpn.command()
+@click.confirmation_option()
+@click.argument('vpn_name')
+@click.option('-c', '--curl-command', default=False, show_default=True, is_flag=True,
+    help='Output curl commands only')
+def delete(vpn_name, curl_command):
+    """Delete the VPN"""
+    delete_vpn(vpn_name, curl_command)
+
+
 
 @vpn.command()
 @click.argument('vpn_name')
