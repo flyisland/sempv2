@@ -9,14 +9,14 @@ sempv2_openapi_config_json = json.loads(\
 BASE_PATH = sempv2_openapi_config_json['basePath']
 MSGVPN_DEF = {}
 
-def initObjectDefinitions():
+def init_object_definitions():
     global MSGVPN_DEF
-    MSGVPN_DEF = buildObjDef("", "msgVpns")
+    MSGVPN_DEF = build_obj_def("", "msgVpns")
    
 
 
 __all_paths =  sempv2_openapi_config_json['paths'].keys()
-def buildObjDef(parent_path, collection_name):
+def build_obj_def(parent_path, collection_name):
     this_def = {}
     # 1. find the collection path and the object path
     collection_path = parent_path + "/" + collection_name
@@ -40,24 +40,24 @@ def buildObjDef(parent_path, collection_name):
 
     obj_path_json = sempv2_openapi_config_json["paths"][obj_path]
     this_def = {**this_def, \
-        ** findSpecialAttributes(obj_path_json), \
-        ** findDefaultValues(obj_path_json)}
+        ** find_special_attributes(obj_path_json), \
+        ** find_default_values(obj_path_json)}
 
     # 4. find out all children collection name from paths
-    childrenRe = re.compile(obj_path+"/([^/]+)$")
-    childrenCollectionNames = [re.search(childrenRe, path).group(1) for path in __all_paths if re.search(childrenRe, path)]
+    children_re = re.compile(obj_path+"/([^/]+)$")
+    children_coll_names = [re.search(children_re, path).group(1) for path in __all_paths if re.search(children_re, path)]
 
     this_def["Children"] = {}
-    for coll_name in childrenCollectionNames:
-        childDef = buildObjDef(obj_path, coll_name)
+    for coll_name in children_coll_names:
+        child_ef = build_obj_def(obj_path, coll_name)
         # skip deprecated one
-        if not childDef : continue           
-        this_def["Children"][coll_name] = buildObjDef(obj_path, coll_name)
+        if not child_ef : continue           
+        this_def["Children"][coll_name] = build_obj_def(obj_path, coll_name)
 
     return this_def
 
 
-def findSpecialAttributes(obj_path_json):
+def find_special_attributes(obj_path_json):
     description = obj_path_json["patch"]["description"] if \
         obj_path_json.get("patch") else ""
 
@@ -76,7 +76,7 @@ def findSpecialAttributes(obj_path_json):
     return {"WriteOnly": WriteOnly, "RequiresDisable": RequiresDisable}
 
 
-def findDefaultValues(obj_path_json):
+def find_default_values(obj_path_json):
     patch = obj_path_json.get("patch")
     if not patch:
         return {"Defaults": {}}
@@ -87,7 +87,7 @@ def findDefaultValues(obj_path_json):
     return {"Defaults": findDefaultValuesFromDefinitions(definition)}
 
 # Example: The default value is `false`.
-__valueRe = re.compile("The default value is `([^`]+)`\.")
+__value_re = re.compile("The default value is `([^`]+)`\.")
 def findDefaultValuesFromDefinitions(definition):
     properties = sempv2_openapi_config_json["definitions"][definition]["properties"]
 
@@ -95,7 +95,7 @@ def findDefaultValuesFromDefinitions(definition):
     for key in properties:
         p = properties[key]
         description = p.get("description", "")
-        match = re.search(__valueRe, description)
+        match = re.search(__value_re, description)
         if not match: continue
         pType = p["type"]
         if   "integer" == pType:
@@ -112,5 +112,5 @@ def findDefaultValuesFromDefinitions(definition):
 
 
 if __name__ == '__main__':
-    initObjectDefinitions()
+    init_object_definitions()
     print(json.dumps(MSGVPN_DEF, indent=2))
