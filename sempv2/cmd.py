@@ -33,7 +33,7 @@ def vpn(ctx):
 @vpn.command()
 @click.argument('vpn_name')
 @pass_sempv2
-def backup(sempv2, vpn_name):
+def backupVPN(sempv2, vpn_name):
     """Fetches the whole configuration of a VPN"""
     sempv2.backup_vpn(vpn_name)
 
@@ -43,7 +43,7 @@ def backup(sempv2, vpn_name):
 @click.option('-c', '--curl-command', default=False, show_default=True, is_flag=True,
     help='Output curl commands only')
 @pass_sempv2
-def delete(sempv2, vpn_name, curl_command):
+def deleteVPN(sempv2, vpn_name, curl_command):
     """Delete the VPN"""
     sempv2.delete_vpn(vpn_name, curl_command)
 
@@ -52,7 +52,7 @@ def delete(sempv2, vpn_name, curl_command):
 @click.option('-c', '--curl-command', default=False, show_default=True, is_flag=True,
     help='Output curl commands only')
 @pass_sempv2
-def restore(sempv2, config_file, curl_command):
+def restoreVPN(sempv2, config_file, curl_command):
     """Restore the VPN with the configuration file"""
     sempv2.restore(config_file, curl_command)
 
@@ -63,7 +63,7 @@ def restore(sempv2, config_file, curl_command):
 @click.option('-u', '--update-password', default=False, show_default=True, is_flag=True,
     help='Whether to update passwords')
 @pass_sempv2
-def update(sempv2, config_file, curl_command, update_password):
+def updateVPN(sempv2, config_file, curl_command, update_password):
     """Update the VPN with the configuration file"""
     sempv2.update(config_file, curl_command, update_password)
 
