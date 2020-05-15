@@ -1,4 +1,5 @@
 import click
+import logging
 
 from .sempv2_defs import SEMPV2_BASE_PATH
 from .util import BROKER_OPTIONS
@@ -6,6 +7,9 @@ from .backup import backup_vpn
 from .delete import delete_vpn
 from .restore import restore_vpn
 from .update import update_vpn
+
+
+logging.basicConfig(level=logging.INFO)
 
 @click.group()
 @click.option('-u', '--admin-user', default='admin', show_default=True,
