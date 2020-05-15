@@ -1,7 +1,7 @@
 import logging
 
 from .util import *
-from .backup import get_obj_config
+from .backup import get_online_obj_config
 from .sempv2_defs import SEMPV2_DEFS
 
 def delete_vpn(vpn_name, curl_command):
@@ -10,7 +10,7 @@ def delete_vpn(vpn_name, curl_command):
     
     top_coll_name = "msgVpns"
     obj_def = SEMPV2_DEFS[top_coll_name]
-    vpn_config = get_obj_config(top_coll_name, vpn_name)
+    vpn_config = get_online_obj_config(top_coll_name, vpn_name)
     rest_commands = []
     generate_delete_commands(rest_commands, "", top_coll_name, vpn_config, obj_def)
     if(curl_command):
