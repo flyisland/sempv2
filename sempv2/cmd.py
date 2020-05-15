@@ -1,15 +1,11 @@
 import click
-import os
 
-from sempv2.SEMP import SEMPv2
 from .sempv2_defs import SEMPV2_BASE_PATH
 from .util import BROKER_OPTIONS
 from .backup import backup_vpn
 from .delete import delete_vpn
 from .restore import restore_vpn
 from .update import update_vpn
-
-pass_sempv2 = click.make_pass_decorator(SEMPv2)
 
 @click.group()
 @click.option('-u', '--admin-user', default='admin', show_default=True,
@@ -32,8 +28,6 @@ def cli(ctx, admin_user, admin_password, host, verbose):
     BROKER_OPTIONS["admin_user"] = admin_user
     BROKER_OPTIONS["password"] = admin_password
     BROKER_OPTIONS["verbose"] = verbose
-    ctx.obj = SEMPv2(host, admin_user, admin_password)
-    ctx.obj.verbose = verbose
 
 @cli.group()
 @click.pass_context
@@ -73,45 +67,6 @@ def restore( config_file, curl_command):
 def update(config_file, curl_command, update_password):
     """Update the VPN with the configuration file"""
     update_vpn(config_file, curl_command, update_password)
-
-
-#--------------------------------
-@vpn.command()
-@click.argument('vpn_name')
-@pass_sempv2
-def backupVPN(sempv2, vpn_name):
-    """Fetches the whole configuration of a VPN"""
-    sempv2.backup_vpn(vpn_name)
-
-@vpn.command()
-@click.confirmation_option()
-@click.argument('vpn_name')
-@click.option('-c', '--curl-command', default=False, show_default=True, is_flag=True,
-    help='Output curl commands only')
-@pass_sempv2
-def deleteVPN(sempv2, vpn_name, curl_command):
-    """Delete the VPN"""
-    sempv2.delete_vpn(vpn_name, curl_command)
-
-@vpn.command()
-@click.argument('config-file', type=click.Path(exists=True))
-@click.option('-c', '--curl-command', default=False, show_default=True, is_flag=True,
-    help='Output curl commands only')
-@pass_sempv2
-def restoreVPN(sempv2, config_file, curl_command):
-    """Restore the VPN with the configuration file"""
-    sempv2.restore(config_file, curl_command)
-
-@vpn.command()
-@click.argument('config-file', type=click.Path(exists=True))
-@click.option('-c', '--curl-command', default=False, show_default=True, is_flag=True,
-    help='Output curl commands only')
-@click.option('-u', '--update-password', default=False, show_default=True, is_flag=True,
-    help='Whether to update passwords')
-@pass_sempv2
-def updateVPN(sempv2, config_file, curl_command, update_password):
-    """Update the VPN with the configuration file"""
-    sempv2.update(config_file, curl_command, update_password)
 
 
 if __name__ == '__main__':

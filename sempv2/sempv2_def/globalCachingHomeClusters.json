@@ -1,9 +1,0 @@
-{
-    "key_names": [
-        "homeClusterName"
-    ],
-    "sub_elements": [
-        "topicPrefixes"
-    ],
-    "defaults": {}
-}
