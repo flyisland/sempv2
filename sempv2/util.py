@@ -34,10 +34,10 @@ def is_build_in_object(obj_def, id_uri):
         return False
 
 
-def extract_payload(element_def, object_json):
+def extract_payload(obj_def, object_json):
     payload = {}
     for k in object_json:
-        if k not in element_def["sub_elements"]:
+        if k not in obj_def["Children"]:
             payload[k] = object_json[k]
     return payload
 
