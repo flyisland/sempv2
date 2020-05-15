@@ -5,6 +5,7 @@
 * [X] Backing up the config of a VPN to a JSON file
 * [X] Restore a VPN from a JSON file
 * [X] Delete a VPN
+* [X] Update the VPN with the configuration file
 
 ## Installation
 
@@ -16,23 +17,17 @@ $ pip install .
 
 ## Usage
 
-Run `sempv2` to show the help message:
+### VPN
+
+Run `sempv2 vpn` to show the help message:
 
 ```bash
-$ sempv2 --help
-Usage: sempv2 [OPTIONS] COMMAND [ARGS]...
+$ Usage: sempv2 vpn [OPTIONS] COMMAND [ARGS]...
 
-  Backing Up and Restoring Solace PubSub+ VPN Configs with SEMPv2 protocol
+  Backing Up and Restoring Solace PubSub+ VPN
 
 Options:
-  -u, --admin-user TEXT      The username of the management user  [default:
-                             admin]
-  -p, --admin-password TEXT  The password of the management user, could be set
-                             by env variable [SOL_ADMIN_PWD]  [default: admin]
-  -h, --host TEXT            URL to access the management endpoint of the
-                             broker  [default: http://localhost:8080]
-  -v, --verbose              Enables verbose mode.
-  --help                     Show this message and exit.
+  --help  Show this message and exit.
 
 Commands:
   backup   Fetches the whole configuration of a VPN
@@ -61,5 +56,3 @@ Commands:
 ## Reference
 
 * [Solace Element Management Protocol](https://docs.solace.com/API-Developer-Online-Ref-Documentation/swagger-ui/config/index.html)
-* [How To Package Your Python Code](https://python-packaging.readthedocs.io/en/latest/index.html)
-* [Setuptools Integration](https://click.palletsprojects.com/en/7.x/setuptools/#setuptools-integration)
