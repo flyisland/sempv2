@@ -2,6 +2,9 @@ import click
 import os
 
 from sempv2.SEMP import SEMPv2
+from .sempv2_defs import SEMPV2_BASE_PATH
+from .util import BROKER_OPTIONS
+from .backup import backup_vpn
 
 pass_sempv2 = click.make_pass_decorator(SEMPv2)
 
@@ -21,6 +24,11 @@ def cli(ctx, admin_user, admin_password, host, verbose):
     # this point onwards other commands can refer to it by using the
     # @pass_sempv2 decorator.
 
+    global BROKER_OPTIONS
+    BROKER_OPTIONS["config_url"] = host + SEMPV2_BASE_PATH
+    BROKER_OPTIONS["admin_user"] = admin_user
+    BROKER_OPTIONS["password"] = admin_password
+    BROKER_OPTIONS["verbose"] = verbose
     ctx.obj = SEMPv2(host, admin_user, admin_password)
     ctx.obj.verbose = verbose
 
@@ -29,6 +37,13 @@ def cli(ctx, admin_user, admin_password, host, verbose):
 def vpn(ctx):
     """Backing Up and Restoring Solace PubSub+ VPN"""
     pass
+
+@vpn.command()
+@click.argument('vpn_name')
+@pass_sempv2
+def backup(sempv2, vpn_name):
+    """Fetches the whole configuration of a VPN"""
+    backup_vpn(vpn_name)
 
 @vpn.command()
 @click.argument('vpn_name')

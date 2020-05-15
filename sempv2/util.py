@@ -1,6 +1,27 @@
+import requests
 import json
+from urllib.parse import quote_plus
 
 # helper functions
+BROKER_OPTIONS = {}
+def rest(verb, url, data_json=None, return_error_status=False):
+    global BROKER_OPTIONS
+    headers={"content-type": "application/json"}
+    r = getattr(requests, verb)(url, headers={"content-type": "application/json"},
+        auth=(BROKER_OPTIONS["admin_user"], BROKER_OPTIONS["password"]),
+        data=(json.dumps(data_json) if data_json != None else None))
+    if (r.status_code != 200):
+        if (return_error_status):
+            return r
+        else:
+            print("{} on {} returns {}".format(verb.upper(), url, r.status_code))
+            raise RuntimeError
+    else:
+        return r.json()
+
+def build_identifiers_uri(obj_json, obj_def):
+        id_uri = ",".join([quote_plus(obj_json[id_name] if id_name in obj_json else "") for id_name in obj_def["Identifiers"]])
+        return id_uri
 
 def extract_payload(element_def, object_json):
     payload = {}

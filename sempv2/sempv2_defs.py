@@ -1,17 +1,23 @@
 import json
+from importlib_resources import read_text
 import re
 
 # [Download SEMP Specification JSON](https://products.solace.com/download/PUBSUB_SEMPV2_SCHEMA_JSON)
 # version  2.15
 SEMPV2_API_VERSION="2.15"
-sempv2_openapi_config_json = json.loads(\
-    open("./semp-v2-swagger-config.json", "r").read())
-BASE_PATH = sempv2_openapi_config_json['basePath']
-MSGVPN_DEF = {}
 
-def init_object_definitions():
-    global MSGVPN_DEF
-    MSGVPN_DEF = build_obj_def("", "msgVpns")
+# https://importlib-resources.readthedocs.io/en/latest/using.html
+# Reads contents with UTF-8 encoding and returns str.
+sempv2_openapi_config_json = json.loads(\
+        read_text('sempv2', 'semp-v2-swagger-config.json'))
+
+SEMPV2_BASE_PATH = sempv2_openapi_config_json['basePath']
+SEMPV2_DEFS = {}
+
+def __init_object_definitions():
+    global SEMPV2_DEFS
+    for coll in ["msgVpns", "dmrClusters"]:
+        SEMPV2_DEFS[coll] = build_obj_def("", "msgVpns")
    
 
 
@@ -40,7 +46,7 @@ def build_obj_def(parent_path, collection_name):
 
     obj_path_json = sempv2_openapi_config_json["paths"][obj_path]
     this_def = {**this_def, \
-        ** find_special_attributes(obj_path_json), \
+        ** __find_special_attributes(obj_path_json), \
         ** find_default_values(obj_path_json)}
 
     # 4. find out all children collection name from paths
@@ -57,7 +63,7 @@ def build_obj_def(parent_path, collection_name):
     return this_def
 
 
-def find_special_attributes(obj_path_json):
+def __find_special_attributes(obj_path_json):
     description = obj_path_json["patch"]["description"] if \
         obj_path_json.get("patch") else ""
 
@@ -84,11 +90,11 @@ def find_default_values(obj_path_json):
     ref = [p["schema"]["$ref"] for p in patch["parameters"] if p.get("name")=="body"][0]
     definition = ref.split("/")[-1]
 
-    return {"Defaults": findDefaultValuesFromDefinitions(definition)}
+    return {"Defaults": __findDefaultValuesFromDefinitions(definition)}
 
 # Example: The default value is `false`.
 __value_re = re.compile("The default value is `([^`]+)`\.")
-def findDefaultValuesFromDefinitions(definition):
+def __findDefaultValuesFromDefinitions(definition):
     properties = sempv2_openapi_config_json["definitions"][definition]["properties"]
 
     Defaults = {}
@@ -110,7 +116,5 @@ def findDefaultValuesFromDefinitions(definition):
 
     return Defaults
 
-
-if __name__ == '__main__':
-    init_object_definitions()
-    print(json.dumps(MSGVPN_DEF, indent=2))
+# 
+__init_object_definitions()
