@@ -34,8 +34,7 @@ def cli(ctx, admin_user, admin_password, host, verbose):
     BROKER_OPTIONS["verbose"] = verbose
 
 @cli.group()
-@click.pass_context
-def vpn(ctx):
+def vpn():
     """Backing Up and Restoring Solace PubSub+ VPN"""
     pass
 
