@@ -3,10 +3,10 @@ import logging
 
 from .sempv2_defs import SEMPV2_BASE_PATH
 from .util import BROKER_OPTIONS
-from .backup import backup_vpn
-from .delete import delete_vpn
-from .restore import restore_vpn
-from .update import update_vpn
+from .backup import backup
+from .delete import delete
+from .restore import restore
+from .update import update
 
 
 logging.basicConfig(level=logging.INFO)
@@ -39,38 +39,38 @@ def vpn(ctx):
     """Backing Up and Restoring Solace PubSub+ VPN"""
     pass
 
-@vpn.command()
+@vpn.command(name="backup")
 @click.argument('vpn_name')
-def backup(vpn_name):
+def backup_vpn(vpn_name):
     """Fetches the whole configuration of a VPN"""
-    backup_vpn(vpn_name)
+    backup("msgVpns", vpn_name)
 
-@vpn.command()
+@vpn.command(name="delete")
 @click.confirmation_option()
 @click.argument('vpn_name')
 @click.option('-c', '--curl-command', default=False, show_default=True, is_flag=True,
     help='Output curl commands only')
-def delete(vpn_name, curl_command):
+def delete_vpn(vpn_name, curl_command):
     """Delete the VPN"""
-    delete_vpn(vpn_name, curl_command)
+    delete("msgVpns", vpn_name, curl_command)
 
-@vpn.command()
+@vpn.command(name="restore")
 @click.argument('config-file', type=click.Path(exists=True))
 @click.option('-c', '--curl-command', default=False, show_default=True, is_flag=True,
     help='Output curl commands only')
-def restore( config_file, curl_command):
+def restore_vpn( config_file, curl_command):
     """Restore the VPN with the configuration file"""
-    restore_vpn(config_file, curl_command)
+    restore("msgVpns", config_file, curl_command)
 
-@vpn.command()
+@vpn.command(name="update")
 @click.argument('config-file', type=click.Path(exists=True))
 @click.option('-c', '--curl-command', default=False, show_default=True, is_flag=True,
     help='Output curl commands only')
 @click.option('-u', '--update-password', default=False, show_default=True, is_flag=True,
     help='Whether to update passwords')
-def update(config_file, curl_command, update_password):
+def update_vpn(config_file, curl_command, update_password):
     """Update the VPN with the configuration file"""
-    update_vpn(config_file, curl_command, update_password)
+    update("msgVpns", config_file, curl_command, update_password)
 
 
 if __name__ == '__main__':

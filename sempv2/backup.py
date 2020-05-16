@@ -2,8 +2,8 @@ import json
 from .util import *
 from .sempv2_defs import SEMPV2_DEFS
 
-def backup_vpn(vpn_name):
-    vpn_config = get_online_obj_config("msgVpns", vpn_name)
+def backup(top_coll_name, obj_name):
+    vpn_config = get_online_obj_config(top_coll_name, obj_name)
     print(json.dumps(vpn_config, indent=2))
 
 def get_online_obj_config(top_coll_name, obj_name):

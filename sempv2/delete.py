@@ -4,13 +4,13 @@ from .util import *
 from .backup import get_online_obj_config
 from .sempv2_defs import SEMPV2_DEFS
 
-def delete_vpn(vpn_name, curl_command):
+def delete(top_coll_name, obj_name, curl_command):
     if BROKER_OPTIONS["verbose"]:
-        logging.info("About to delete the vpn, "+ BROKER_OPTIONS["config_url"]+"/msgVpns/"+vpn_name)
+        logging.info("About to delete : {}/{}/{}".format(\
+            BROKER_OPTIONS["config_url"], top_coll_name, obj_name))
     
-    top_coll_name = "msgVpns"
     obj_def = SEMPV2_DEFS[top_coll_name]
-    vpn_config = get_online_obj_config(top_coll_name, vpn_name)
+    vpn_config = get_online_obj_config(top_coll_name, obj_name)
     rest_commands = []
     generate_delete_commands(rest_commands, "", top_coll_name, vpn_config, obj_def)
     if(curl_command):

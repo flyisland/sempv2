@@ -8,12 +8,11 @@ from jinja2 import Environment, FileSystemLoader
 from .util import *
 from .sempv2_defs import SEMPV2_DEFS
 
-def restore_vpn(filename, curl_command):
+def restore(top_coll_name, filename, curl_command):
     if BROKER_OPTIONS["verbose"]:
-        logging.info("About to restore a vpn with file '{}'".format(filename))
+        logging.info("About to restore {} with file '{}'".format(top_coll_name, filename))
 
     obj_json = read_config_file(filename)
-    top_coll_name = "msgVpns"
     obj_def = SEMPV2_DEFS[top_coll_name]
     rest_commands = []
     generate_restore_commands(rest_commands, "", top_coll_name, obj_json, obj_def)

@@ -8,30 +8,29 @@ from .delete import generate_delete_commands
 from .util import *
 
 __update_password = False
-def update_vpn(filename, curl_command, update_password):
+def update(top_coll_name, filename, curl_command, update_password):
     global __update_password
     __update_password = update_password
 
     # 1. load config from file first
-    top_coll_name = "msgVpns"
     obj_def = SEMPV2_DEFS[top_coll_name]
     obj_json_file = read_config_file(filename)
     remove_default_attributes(obj_def, obj_json_file)
+    obj_name = build_identifiers_uri(obj_json_file, obj_def)    
+    if BROKER_OPTIONS["verbose"]:
+        logging.info("About to update the online object '{}/{}/{}' with file '{}'".format
+            (BROKER_OPTIONS["config_url"], top_coll_name, obj_name, filename))
 
     # 2. load config from online vpn
-    msgVpnName = obj_json_file["msgVpnName"]
-    obj_json_online = get_online_obj_config(top_coll_name, msgVpnName)
+    obj_json_online = get_online_obj_config(top_coll_name, obj_name)
 
     # 3. generate update rest commands
-    if BROKER_OPTIONS["verbose"]:
-        logging.info("About to update the online vpn '{}/msgVpns/{}' with file '{}'".format
-            (BROKER_OPTIONS["config_url"], msgVpnName, filename))
-
     rest_commands = []
     generate_update_commands(rest_commands, "", top_coll_name, obj_json_file,obj_json_online, obj_def)
 
     if(len(rest_commands) == 0):
-        logging.info("The config file '{}' is identical to the online vpn '{}'.".format(filename, msgVpnName))
+        logging.info("The config file '{}' is identical to the online object '{}/{}/{}'.".format\
+            (filename, BROKER_OPTIONS["config_url"], top_coll_name, obj_name))
         return
 
     if(curl_command):
