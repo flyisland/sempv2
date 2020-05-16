@@ -17,7 +17,7 @@ SEMPV2_DEFS = {}
 def __init_object_definitions():
     global SEMPV2_DEFS
     for coll in ["msgVpns", "dmrClusters"]:
-        SEMPV2_DEFS[coll] = build_obj_def("", "msgVpns")
+        SEMPV2_DEFS[coll] = build_obj_def("", coll)
    
 
 
@@ -118,3 +118,6 @@ def __findDefaultValuesFromDefinitions(definition):
 
 # 
 __init_object_definitions()
+
+if __name__ == '__main__':
+    print(json.dumps(SEMPV2_DEFS, indent=2))
