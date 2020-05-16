@@ -98,12 +98,12 @@ def generate_update_commands(rest_commands, parent_uri, coll_name, new_json, old
                 compare_two_collection(rest_commands, object_uri, child_coll_name, 
                     new_json[child_coll_name], old_json[child_coll_name], child_obj_def)
             else:
-                # new only objects
+                # new only collection, create them
                 for child_obj in new_json[child_coll_name]:
                     generate_restore_commands(rest_commands, object_uri, child_coll_name, child_obj, child_obj_def)
         elif child_coll_name in old_json:
-            # old only sub_elements
-            for child_obj in new_json[child_coll_name]:
+            # old only collection, just delete them
+            for child_obj in old_json[child_coll_name]:
                 generate_delete_commands(rest_commands, object_uri, child_coll_name, child_obj, child_obj_def)
         else:
             continue
