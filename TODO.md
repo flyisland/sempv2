@@ -4,22 +4,23 @@ Backing Up and Restoring Solace PubSub+ VPN Configs with SEMPv2
 
 ### Todo
 
-- [ ] Tools, auto generate definition fils from  SEMPv2 open api  
 - [ ] Add --showDefault to Backup command to show  all properties even with default value  
-- [ ] Add definition of "mqttRetainCaches"  
-- [ ] Add definition of "mqttSessions"  
-- [ ] Add definition of "queueTemplates"  
-- [ ] Add definition of "replayLogs"  
-- [ ] Add definition of "replicatedTopics"  
-- [ ] Add definition of "sequencedTopics"  
-- [ ] Add definition of "topicEndpointTemplates"  
-- [ ] Add definition of "topicEndpoints"  
+- [ ] generate definitions from online spec  
 
 ### In Progress
 
 
 ### Done ✓
 
+- [x] Tools, auto generate definition fils from  SEMPv2 open api  
+- [x] Add definition of "topicEndpoints"  
+- [x] Add definition of "topicEndpointTemplates"  
+- [x] Add definition of "sequencedTopics"  
+- [x] Add definition of "replicatedTopics"  
+- [x] Add definition of "replayLogs"  
+- [x] Add definition of "queueTemplates"  
+- [x] Add definition of "mqttSessions"  
+- [x] Add definition of "mqttRetainCaches"  
 - [x] add --update-password to  enable/disable whether to update the read-only property "password"  
 - [x] Click with sub-command options  
 - [x] Add Update command, compare the JSON file with online VPN, and perform actions only needed.  
