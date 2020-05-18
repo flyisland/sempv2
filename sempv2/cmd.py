@@ -1,7 +1,7 @@
 import click
 import logging
 
-from .sempv2_defs import SEMPV2_BASE_PATH
+from .sempv2_defs import SEMPV2_BASE_PATH, init_object_definitions
 from .util import BROKER_OPTIONS
 from .backup import backup
 from .delete import delete
@@ -32,6 +32,8 @@ def cli(ctx, admin_user, admin_password, host, verbose):
     BROKER_OPTIONS["admin_user"] = admin_user
     BROKER_OPTIONS["password"] = admin_password
     BROKER_OPTIONS["verbose"] = verbose
+
+    init_object_definitions(BROKER_OPTIONS)
 
 @cli.group()
 def vpn():

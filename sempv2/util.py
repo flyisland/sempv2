@@ -5,6 +5,11 @@ import logging
 
 # helper functions
 BROKER_OPTIONS = {}
+#    BROKER_OPTIONS["config_url"]
+#    BROKER_OPTIONS["admin_user"]
+#    BROKER_OPTIONS["password"]
+#    BROKER_OPTIONS["verbose"]
+
 def rest(verb, url, data_json=None, return_error_status=False):
     global BROKER_OPTIONS
     headers={"content-type": "application/json"}
