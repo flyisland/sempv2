@@ -4,14 +4,14 @@ Backing Up and Restoring Solace PubSub+ VPN Configs with SEMPv2
 
 ### Todo
 
-- [ ] Add --showDefault to Backup command to show  all properties even with default value  
-- [ ] generate definitions from online spec  
 
 ### In Progress
 
 
 ### Done ✓
 
+- [x] generate definitions from online spec  
+- [x] Add --showDefault to Backup command to show  all properties even with default value  
 - [x] Tools, auto generate definition fils from  SEMPv2 open api  
 - [x] Add definition of "topicEndpoints"  
 - [x] Add definition of "topicEndpointTemplates"  

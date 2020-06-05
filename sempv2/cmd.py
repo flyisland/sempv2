@@ -43,9 +43,13 @@ def vpn():
 
 @vpn.command(name="backup")
 @click.argument('vpn_name')
-def backup_vpn(vpn_name):
+@click.option('--remove-default-value', default=False, show_default=True, is_flag=True,
+    help='Remove the attributes with default value to make the result JSON more concise')
+@click.option('--reserve-deprecated', default=False, show_default=True, is_flag=True,
+    help='Reserve the deprecated attributes for possible backward compatibility')
+def backup_vpn(vpn_name, remove_default_value, reserve_deprecated):
     """Fetches the whole configuration of a VPN"""
-    backup("msgVpns", vpn_name)
+    backup("msgVpns", vpn_name, remove_default_value, reserve_deprecated)
 
 @vpn.command(name="delete")
 @click.confirmation_option()

@@ -2,11 +2,11 @@ import json
 from .util import *
 from .sempv2_defs import SEMPV2_DEFS
 
-def backup(top_coll_name, obj_name):
-    vpn_config = get_online_obj_config(top_coll_name, obj_name)
+def backup(top_coll_name, obj_name, remove_default_value=False, reserve_deprecated=False):
+    vpn_config = get_online_obj_config(top_coll_name, obj_name, remove_default_value, reserve_deprecated)
     print(json.dumps(vpn_config, indent=2))
 
-def get_online_obj_config(top_coll_name, obj_name):
+def get_online_obj_config(top_coll_name, obj_name, remove_default_value=False, reserve_deprecated=False):
     url = "{}/{}/{}".format(BROKER_OPTIONS["config_url"], top_coll_name, obj_name)
     
     # GET the first level content of this object
@@ -17,8 +17,10 @@ def get_online_obj_config(top_coll_name, obj_name):
     # GET all children collections
     fetch_collections(obj_config, links)
     obj_def = SEMPV2_DEFS[top_coll_name]
-    remove_default_attributes(obj_def, obj_config)
-    remove_deprecated_children(obj_def, obj_config)
+    if remove_default_value:
+        remove_default_attributes(obj_def, obj_config)
+    if not reserve_deprecated:
+        remove_deprecated_children(obj_def, obj_config)
     return obj_config
 
 def fetch_collections(data, links):
