@@ -42,15 +42,15 @@ def build_obj_def(parent_path, collection_name):
         .get(collection_path)
         .get("get")
         .get("deprecated")):
-        # This has been deprecated, just skip it.
-        return None
+        # This has been deprecated!
+        this_def["deprecated"]=True
 
     obj_re = re.compile("^"+collection_path+"/{[^/]+}$")
     obj_path = [path for path in __all_paths if re.search(obj_re, path)][0]
 
     # 2. find out attributes like "Identifiers", "WriteOnly", "RequiresDisable", 
-    # and skip "Deprecated"
     # 3. find out attributes with default value
+    # /msgVpns/{msgVpnName}/aclProfiles/{aclProfileName}/publishTopicExceptions/{publishTopicExceptionSyntax},{publishTopicException}
     id_re = re.compile("{([^}]+)}")
     Identifiers = re.findall(id_re, obj_path.split("/")[-1])
     this_def['Identifiers'] = Identifiers
@@ -67,9 +67,7 @@ def build_obj_def(parent_path, collection_name):
     this_def["Children"] = {}
     for coll_name in children_coll_names:
         child_ef = build_obj_def(obj_path, coll_name)
-        # skip deprecated one
-        if not child_ef : continue           
-        this_def["Children"][coll_name] = build_obj_def(obj_path, coll_name)
+        this_def["Children"][coll_name] = child_ef
 
     return this_def
 
