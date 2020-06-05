@@ -18,6 +18,7 @@ def get_online_obj_config(top_coll_name, obj_name):
     fetch_collections(obj_config, links)
     obj_def = SEMPV2_DEFS[top_coll_name]
     remove_default_attributes(obj_def, obj_config)
+    remove_deprecated_children(obj_def, obj_config)
     return obj_config
 
 def fetch_collections(data, links):
@@ -80,3 +81,16 @@ def remove_default_attributes(obj_def, data, parent_identifiers=[]):
 
         for child_obj in data[child_coll_name]:
             remove_default_attributes(child_obj_def, child_obj, parent_identifiers_for_child)
+
+
+def remove_deprecated_children(obj_def, obj_json):
+    for child_coll_name, child_obj_def in obj_def["Children"].items():
+        if child_coll_name not in obj_json: # skip empty elements
+            continue
+        
+        if child_obj_def.get("deprecated", False):
+            obj_json.pop(child_coll_name)
+            continue
+
+        for child_obj in obj_json[child_coll_name]:
+            remove_deprecated_children(child_obj_def, child_obj)
