@@ -12,6 +12,7 @@ from .update import update
 logging.basicConfig(level=logging.INFO)
 
 @click.group()
+@click.version_option()
 @click.option('-u', '--admin-user', default='admin', show_default=True,
     help='The username of the management user')
 @click.option('-p', '--admin-password', default='admin', show_default=True,
