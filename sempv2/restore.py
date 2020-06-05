@@ -14,6 +14,15 @@ def restore(top_coll_name, filename, curl_command):
 
     obj_json = read_config_file(filename)
     obj_def = SEMPV2_DEFS[top_coll_name]
+
+    deprecated_children=[]
+    remove_deprecated_children(obj_def, obj_json, deprecated_children)
+    if len(deprecated_children) > 0 :
+        for deprecated_attribue in deprecated_children:
+            logging.error("Attribute '{}' in file '{}' has been deprecated!"
+                .format(deprecated_attribue, filename))
+        raise SystemExit
+
     rest_commands = []
     generate_restore_commands(rest_commands, "", top_coll_name, obj_json, obj_def)
     if(curl_command):

@@ -108,14 +108,15 @@ def remove_default_attributes(obj_def, data, parent_identifiers=[]):
             remove_default_attributes(child_obj_def, child_obj, parent_identifiers_for_child)
 
 
-def remove_deprecated_children(obj_def, obj_json):
+def remove_deprecated_children(obj_def, obj_json, deprecated_children=[]):
     for child_coll_name, child_obj_def in obj_def["Children"].items():
         if child_coll_name not in obj_json: # skip empty elements
             continue
         
         if child_obj_def.get("deprecated", False):
+            deprecated_children.append(child_coll_name)
             obj_json.pop(child_coll_name)
             continue
 
         for child_obj in obj_json[child_coll_name]:
-            remove_deprecated_children(child_obj_def, child_obj)
+            remove_deprecated_children(child_obj_def, child_obj, deprecated_children)
