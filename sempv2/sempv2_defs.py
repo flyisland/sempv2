@@ -1,50 +1,61 @@
+import requests
 import json
 from importlib_resources import read_text
 import re
 
-# [Download SEMP Specification JSON](https://products.solace.com/download/PUBSUB_SEMPV2_SCHEMA_JSON)
-# version  2.15
-SEMPV2_API_VERSION="2.15"
-
-# https://importlib-resources.readthedocs.io/en/latest/using.html
-# Reads contents with UTF-8 encoding and returns str.
-sempv2_openapi_config_json = json.loads(\
-        read_text('sempv2', 'semp-v2-swagger-config.json'))
-
-SEMPV2_BASE_PATH = sempv2_openapi_config_json['basePath']
+SEMPV2_BASE_PATH = "/SEMP/v2/config"
 SEMPV2_DEFS = {}
+__sempv2_openapi_config_json = None
+__all_paths = None
 
-def __init_object_definitions():
+def init_object_definitions(BROKER_OPTIONS):
     global SEMPV2_DEFS
+    global __sempv2_openapi_config_json
+    global __all_paths
+
+    spec_url = BROKER_OPTIONS["config_url"]+"/spec"
+    r = requests.get(spec_url, \
+        auth=(BROKER_OPTIONS["admin_user"], BROKER_OPTIONS["password"]))
+    if (r.status_code != 200):
+        print("GET on {} returns {}".format(spec_url, r.status_code))
+        print(r.text)
+        raise RuntimeError
+    else:
+        __sempv2_openapi_config_json = r.json()
+        __all_paths =  __sempv2_openapi_config_json['paths'].keys()
+
     for coll in ["msgVpns", "dmrClusters"]:
         SEMPV2_DEFS[coll] = build_obj_def("", coll)
    
 
 
-__all_paths =  sempv2_openapi_config_json['paths'].keys()
 def build_obj_def(parent_path, collection_name):
+    global SEMPV2_DEFS
+    global __sempv2_openapi_config_json
+    global __all_paths
+
     this_def = {}
     # 1. find the collection path and the object path
     collection_path = parent_path + "/" + collection_name
-    if(sempv2_openapi_config_json
+    if(__sempv2_openapi_config_json
         .get("paths")
         .get(collection_path)
         .get("get")
         .get("deprecated")):
-        # This has been deprecated, just skip it.
-        return None
+        # This has been deprecated!
+        this_def["deprecated"]=True
 
     obj_re = re.compile("^"+collection_path+"/{[^/]+}$")
     obj_path = [path for path in __all_paths if re.search(obj_re, path)][0]
 
     # 2. find out attributes like "Identifiers", "WriteOnly", "RequiresDisable", 
-    # and skip "Deprecated"
     # 3. find out attributes with default value
+    # /msgVpns/{msgVpnName}/aclProfiles/{aclProfileName}/publishTopicExceptions/{publishTopicExceptionSyntax},{publishTopicException}
     id_re = re.compile("{([^}]+)}")
     Identifiers = re.findall(id_re, obj_path.split("/")[-1])
     this_def['Identifiers'] = Identifiers
 
-    obj_path_json = sempv2_openapi_config_json["paths"][obj_path]
+    obj_path_json = __sempv2_openapi_config_json["paths"][obj_path]
     this_def = {**this_def, \
         ** __find_special_attributes(obj_path_json), \
         ** find_default_values(obj_path_json)}
@@ -56,9 +67,7 @@ def build_obj_def(parent_path, collection_name):
     this_def["Children"] = {}
     for coll_name in children_coll_names:
         child_ef = build_obj_def(obj_path, coll_name)
-        # skip deprecated one
-        if not child_ef : continue           
-        this_def["Children"][coll_name] = build_obj_def(obj_path, coll_name)
+        this_def["Children"][coll_name] = child_ef
 
     return this_def
 
@@ -95,7 +104,7 @@ def find_default_values(obj_path_json):
 # Example: The default value is `false`.
 __value_re = re.compile("The default value is `([^`]+)`\.")
 def __findDefaultValuesFromDefinitions(definition):
-    properties = sempv2_openapi_config_json["definitions"][definition]["properties"]
+    properties = __sempv2_openapi_config_json["definitions"][definition]["properties"]
 
     Defaults = {}
     for key in properties:
@@ -116,8 +125,10 @@ def __findDefaultValuesFromDefinitions(definition):
 
     return Defaults
 
-# 
-__init_object_definitions()
-
 if __name__ == '__main__':
+    init_object_definitions({
+        "config_url":"http://localhost:8080/SEMP/v2/config", 
+        "admin_user":"admin",
+        "password":"admin"
+    })
     print(json.dumps(SEMPV2_DEFS, indent=2))

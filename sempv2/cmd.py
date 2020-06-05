@@ -1,7 +1,7 @@
 import click
 import logging
 
-from .sempv2_defs import SEMPV2_BASE_PATH
+from .sempv2_defs import SEMPV2_BASE_PATH, init_object_definitions
 from .util import BROKER_OPTIONS
 from .backup import backup
 from .delete import delete
@@ -12,6 +12,7 @@ from .update import update
 logging.basicConfig(level=logging.INFO)
 
 @click.group()
+@click.version_option()
 @click.option('-u', '--admin-user', default='admin', show_default=True,
     help='The username of the management user')
 @click.option('-p', '--admin-password', default='admin', show_default=True,
@@ -33,6 +34,8 @@ def cli(ctx, admin_user, admin_password, host, verbose):
     BROKER_OPTIONS["password"] = admin_password
     BROKER_OPTIONS["verbose"] = verbose
 
+    init_object_definitions(BROKER_OPTIONS)
+
 @cli.group()
 def vpn():
     """Backing Up and Restoring the Setting of PubSub+ VPN"""
@@ -47,9 +50,13 @@ def cluster():
 
 @vpn.command(name="backup")
 @click.argument('vpn_name')
-def backup_vpn(vpn_name):
+@click.option('--remove-default-value', default=False, show_default=True, is_flag=True,
+    help='Remove the attributes with default value to make the result JSON more concise')
+@click.option('--reserve-deprecated', default=False, show_default=True, is_flag=True,
+    help='Reserve the deprecated attributes for possible backward compatibility')
+def backup_vpn(vpn_name, remove_default_value, reserve_deprecated):
     """Fetches the whole configuration of a VPN"""
-    backup("msgVpns", vpn_name)
+    backup("msgVpns", vpn_name, remove_default_value, reserve_deprecated)
 
 @vpn.command(name="delete")
 @click.confirmation_option()

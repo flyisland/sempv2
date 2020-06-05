@@ -15,7 +15,15 @@ def update(top_coll_name, filename, curl_command, update_password):
     # 1. load config from file first
     obj_def = SEMPV2_DEFS[top_coll_name]
     obj_json_file = read_config_file(filename)
-    remove_default_attributes(obj_def, obj_json_file)
+
+    deprecated_children=[]
+    remove_deprecated_children(obj_def, obj_json_file, deprecated_children)
+    if len(deprecated_children) > 0 :
+        for deprecated_attribue in deprecated_children:
+            logging.error("Attribute '{}' in file '{}' has been deprecated!"
+                .format(deprecated_attribue, filename))
+        raise SystemExit
+
     obj_name = build_identifiers_uri(obj_json_file, obj_def)    
     if BROKER_OPTIONS["verbose"]:
         logging.info("About to update the online object '{}/{}/{}' with file '{}'".format
@@ -98,12 +106,12 @@ def generate_update_commands(rest_commands, parent_uri, coll_name, new_json, old
                 compare_two_collection(rest_commands, object_uri, child_coll_name, 
                     new_json[child_coll_name], old_json[child_coll_name], child_obj_def)
             else:
-                # new only objects
+                # new only collection, create them
                 for child_obj in new_json[child_coll_name]:
                     generate_restore_commands(rest_commands, object_uri, child_coll_name, child_obj, child_obj_def)
         elif child_coll_name in old_json:
-            # old only sub_elements
-            for child_obj in new_json[child_coll_name]:
+            # old only collection, just delete them
+            for child_obj in old_json[child_coll_name]:
                 generate_delete_commands(rest_commands, object_uri, child_coll_name, child_obj, child_obj_def)
         else:
             continue

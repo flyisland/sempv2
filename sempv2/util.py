@@ -5,6 +5,11 @@ import logging
 
 # helper functions
 BROKER_OPTIONS = {}
+#    BROKER_OPTIONS["config_url"]
+#    BROKER_OPTIONS["admin_user"]
+#    BROKER_OPTIONS["password"]
+#    BROKER_OPTIONS["verbose"]
+
 def rest(verb, url, data_json=None, return_error_status=False):
     global BROKER_OPTIONS
     headers={"content-type": "application/json"}
@@ -72,3 +77,46 @@ def exec_rest_commands(rest_commands):
     for c in rest_commands:
         logging.info("{:<6} {}".format(c["verb"].upper(), c["url"]))
         rest(c["verb"], BROKER_OPTIONS["config_url"]+c["url"], c["data_json"])
+
+
+def remove_default_attributes(obj_def, data, parent_identifiers=[]):
+    """Remove attributes with default value"""
+    
+    #1. Remove attributes with default value
+    Defaults = obj_def["Defaults"]
+    for k, v in Defaults.items():
+        if k in data and data[k] == Defaults[k]:
+            data.pop(k)
+    
+    #2 remove identifiers of parent object, which are duplicated in each level
+    for k in parent_identifiers:
+        if k in data:
+            data.pop(k)
+    
+    #3. recursively process all children
+    parent_identifiers_for_child = parent_identifiers + obj_def["Identifiers"]
+    for child_coll_name, child_obj_def in obj_def["Children"].items():
+        if child_coll_name not in data: # skip empty elements
+            continue
+        
+        # Names starting with '#'->'%23' are reserved
+        # Remove it from backup
+        data[child_coll_name][:] = [child_obj for child_obj in data[child_coll_name] \
+            if not build_identifiers_uri(child_obj, child_obj_def).startswith("%23")]
+
+        for child_obj in data[child_coll_name]:
+            remove_default_attributes(child_obj_def, child_obj, parent_identifiers_for_child)
+
+
+def remove_deprecated_children(obj_def, obj_json, deprecated_children=[]):
+    for child_coll_name, child_obj_def in obj_def["Children"].items():
+        if child_coll_name not in obj_json: # skip empty elements
+            continue
+        
+        if child_obj_def.get("deprecated", False):
+            deprecated_children.append(child_coll_name)
+            obj_json.pop(child_coll_name)
+            continue
+
+        for child_obj in obj_json[child_coll_name]:
+            remove_deprecated_children(child_obj_def, child_obj, deprecated_children)
