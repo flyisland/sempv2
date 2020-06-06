@@ -61,7 +61,7 @@ def backup_vpn(vpn_name, remove_default_value, reserve_deprecated):
 @vpn.command(name="delete")
 @click.confirmation_option()
 @click.argument('vpn_name')
-@click.option('-c', '--curl-command', default=False, show_default=True, is_flag=True,
+@click.option('--curl-command', default=False, show_default=True, is_flag=True,
     help='Output curl commands only')
 def delete_vpn(vpn_name, curl_command):
     """Delete the VPN"""
@@ -69,7 +69,7 @@ def delete_vpn(vpn_name, curl_command):
 
 @vpn.command(name="restore")
 @click.argument('config-file', type=click.Path(exists=True))
-@click.option('-c', '--curl-command', default=False, show_default=True, is_flag=True,
+@click.option('--curl-command', default=False, show_default=True, is_flag=True,
     help='Output curl commands only')
 def restore_vpn( config_file, curl_command):
     """Restore the VPN with the configuration file"""
@@ -77,9 +77,9 @@ def restore_vpn( config_file, curl_command):
 
 @vpn.command(name="update")
 @click.argument('config-file', type=click.Path(exists=True))
-@click.option('-c', '--curl-command', default=False, show_default=True, is_flag=True,
+@click.option('--curl-command', default=False, show_default=True, is_flag=True,
     help='Output curl commands only')
-@click.option('-u', '--update-password', default=False, show_default=True, is_flag=True,
+@click.option('--update-password', default=False, show_default=True, is_flag=True,
     help='Whether to update passwords')
 def update_vpn(config_file, curl_command, update_password):
     """Update the VPN with the configuration file"""
@@ -89,14 +89,18 @@ def update_vpn(config_file, curl_command, update_password):
 
 @cluster.command(name="backup")
 @click.argument('cluster_name')
-def backup_cluster(cluster_name):
+@click.option('--remove-default-value', default=False, show_default=True, is_flag=True,
+    help='Remove the attributes with default value to make the result JSON more concise')
+@click.option('--reserve-deprecated', default=False, show_default=True, is_flag=True,
+    help='Reserve the deprecated attributes for possible backward compatibility')
+def backup_cluster(cluster_name, remove_default_value, reserve_deprecated):
     """Fetches the whole configuration of a Cluster"""
-    backup("dmrClusters", cluster_name)
+    backup("dmrClusters", cluster_name, remove_default_value, reserve_deprecated)
 
 @cluster.command(name="delete")
 @click.confirmation_option()
 @click.argument('cluster_name')
-@click.option('-c', '--curl-command', default=False, show_default=True, is_flag=True,
+@click.option('--curl-command', default=False, show_default=True, is_flag=True,
     help='Output curl commands only')
 def delete_cluster(cluster_name, curl_command):
     """Delete the Cluster"""
@@ -104,7 +108,7 @@ def delete_cluster(cluster_name, curl_command):
 
 @cluster.command(name="restore")
 @click.argument('config-file', type=click.Path(exists=True))
-@click.option('-c', '--curl-command', default=False, show_default=True, is_flag=True,
+@click.option('--curl-command', default=False, show_default=True, is_flag=True,
     help='Output curl commands only')
 def restore_cluster( config_file, curl_command):
     """Restore the Cluster with the configuration file"""
@@ -112,9 +116,9 @@ def restore_cluster( config_file, curl_command):
 
 @cluster.command(name="update")
 @click.argument('config-file', type=click.Path(exists=True))
-@click.option('-c', '--curl-command', default=False, show_default=True, is_flag=True,
+@click.option('--curl-command', default=False, show_default=True, is_flag=True,
     help='Output curl commands only')
-@click.option('-u', '--update-password', default=False, show_default=True, is_flag=True,
+@click.option('--update-password', default=False, show_default=True, is_flag=True,
     help='Whether to update passwords')
 def update_cluster(config_file, curl_command, update_password):
     """Update the Cluster with the configuration file"""
