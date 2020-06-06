@@ -99,6 +99,7 @@ def generate_update_commands(rest_commands, parent_uri, coll_name, new_json, old
     # else
         # {} == new_payload: nothing to do
     
+    commands_length_before_precess_children = len(rest_commands)
     #7. recursively process all sub elements
     for child_coll_name, child_obj_def in obj_def["Children"].items():
         if child_coll_name in new_json:
@@ -118,7 +119,13 @@ def generate_update_commands(rest_commands, parent_uri, coll_name, new_json, old
             continue
 
     #8. If needed, Enable this element again after all its sub-objects are settled
-    if is_disable_needed:
+    if not is_disable_needed: return
+
+    if commands_length_before_precess_children == len(rest_commands) and \
+        {"enabled":False} == rest_commands[-1]["data_json"]:
+        # Noting to do since the previous action is to simplely deisable the object
+        rest_commands.pop()
+    else:
         payload = {"enabled":True}
         append_rest_commands(rest_commands, "patch", object_uri, id_uri, payload)
 
