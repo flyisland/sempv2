@@ -1,0 +1,19 @@
+{
+  "dmrClusterName": "cluster-azure",
+  "enabled": true,
+  "nodeName": "solace01",
+  "authenticationBasicPassword":"default",
+  "links": [
+    {
+      "enabled": true,
+      "initiator": "remote",
+      "queueEventSpoolUsageThreshold": {
+        "clearPercent": 1,
+        "setPercent": 2
+      },
+      "queueMaxMsgSpoolUsage": 800000,
+      "remoteNodeName": "29315f44a7eb",
+      "span": "internal"
+    }
+  ]
+}
