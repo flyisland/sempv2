@@ -4,7 +4,7 @@ from .util import *
 from .backup import get_online_obj_config
 from .sempv2_defs import SEMPV2_DEFS
 
-def delete(top_coll_name, obj_name, curl_command):
+def delete(top_coll_name, obj_name):
     if BROKER_OPTIONS["verbose"]:
         logging.info("About to delete : {}/{}/{}".format(\
             BROKER_OPTIONS["config_url"], top_coll_name, obj_name))
@@ -13,7 +13,7 @@ def delete(top_coll_name, obj_name, curl_command):
     vpn_config = get_online_obj_config(top_coll_name, obj_name)
     rest_commands = []
     generate_delete_commands(rest_commands, "", top_coll_name, vpn_config, obj_def)
-    if(curl_command):
+    if BROKER_OPTIONS["curl_only"]:
         build_curl_commands(rest_commands)
     else:
         exec_rest_commands(rest_commands)

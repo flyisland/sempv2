@@ -19,9 +19,11 @@ logging.basicConfig(level=logging.INFO)
     envvar='SOL_ADMIN_PWD', help='The password of the management user, could be set by env variable [SOL_ADMIN_PWD]')
 @click.option('-h', '--host', default='http://localhost:8080', show_default=True,
     help='URL to access the management endpoint of the broker')
+@click.option('--curl-only', default=False, show_default=True, is_flag=True,
+    help='Output curl commands only, no effect on BACKUP command')
 @click.option("--verbose", "-v", is_flag=True, help="Enables verbose mode.")
 @click.pass_context
-def cli(ctx, admin_user, admin_password, host, verbose):
+def cli(ctx, admin_user, admin_password, host, curl_only, verbose):
     """Backing Up and Restoring Solace PubSub+ Configs with SEMPv2 protocol"""
 
     # Create a sempv2 object and remember it as as the context object.  From
@@ -33,6 +35,7 @@ def cli(ctx, admin_user, admin_password, host, verbose):
     BROKER_OPTIONS["admin_user"] = admin_user
     BROKER_OPTIONS["password"] = admin_password
     BROKER_OPTIONS["verbose"] = verbose
+    BROKER_OPTIONS["curl_only"] = curl_only
 
     init_object_definitions(BROKER_OPTIONS)
 
@@ -61,29 +64,23 @@ def backup_vpn(vpn_name, remove_default_value, reserve_deprecated):
 @vpn.command(name="delete")
 @click.confirmation_option()
 @click.argument('vpn_name')
-@click.option('--curl-command', default=False, show_default=True, is_flag=True,
-    help='Output curl commands only')
-def delete_vpn(vpn_name, curl_command):
+def delete_vpn(vpn_name):
     """Delete the VPN"""
-    delete("msgVpns", vpn_name, curl_command)
+    delete("msgVpns", vpn_name)
 
 @vpn.command(name="restore")
 @click.argument('config-file', type=click.Path(exists=True))
-@click.option('--curl-command', default=False, show_default=True, is_flag=True,
-    help='Output curl commands only')
-def restore_vpn( config_file, curl_command):
+def restore_vpn( config_file):
     """Restore the VPN with the configuration file"""
-    restore("msgVpns", config_file, curl_command)
+    restore("msgVpns", config_file)
 
 @vpn.command(name="update")
 @click.argument('config-file', type=click.Path(exists=True))
-@click.option('--curl-command', default=False, show_default=True, is_flag=True,
-    help='Output curl commands only')
 @click.option('--update-password', default=False, show_default=True, is_flag=True,
     help='Whether to update passwords')
-def update_vpn(config_file, curl_command, update_password):
+def update_vpn(config_file, update_password):
     """Update the VPN with the configuration file"""
-    update("msgVpns", config_file, curl_command, update_password)
+    update("msgVpns", config_file, update_password)
 
 # ------------- sub commands of cluster -------------
 
@@ -100,29 +97,23 @@ def backup_cluster(cluster_name, remove_default_value, reserve_deprecated):
 @cluster.command(name="delete")
 @click.confirmation_option()
 @click.argument('cluster_name')
-@click.option('--curl-command', default=False, show_default=True, is_flag=True,
-    help='Output curl commands only')
-def delete_cluster(cluster_name, curl_command):
+def delete_cluster(cluster_name):
     """Delete the Cluster"""
-    delete("dmrClusters", cluster_name, curl_command)
+    delete("dmrClusters", cluster_name)
 
 @cluster.command(name="restore")
 @click.argument('config-file', type=click.Path(exists=True))
-@click.option('--curl-command', default=False, show_default=True, is_flag=True,
-    help='Output curl commands only')
-def restore_cluster( config_file, curl_command):
+def restore_cluster( config_file):
     """Restore the Cluster with the configuration file"""
-    restore("dmrClusters", config_file, curl_command)
+    restore("dmrClusters", config_file)
 
 @cluster.command(name="update")
 @click.argument('config-file', type=click.Path(exists=True))
-@click.option('--curl-command', default=False, show_default=True, is_flag=True,
-    help='Output curl commands only')
 @click.option('--update-password', default=False, show_default=True, is_flag=True,
     help='Whether to update passwords')
-def update_cluster(config_file, curl_command, update_password):
+def update_cluster(config_file, update_password):
     """Update the Cluster with the configuration file"""
-    update("dmrClusters", config_file, curl_command, update_password)
+    update("dmrClusters", config_file, update_password)
 
 
 

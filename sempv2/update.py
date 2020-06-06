@@ -8,7 +8,7 @@ from .delete import generate_delete_commands
 from .util import *
 
 __update_password = False
-def update(top_coll_name, filename, curl_command, update_password):
+def update(top_coll_name, filename, update_password):
     global __update_password
     __update_password = update_password
 
@@ -42,7 +42,7 @@ def update(top_coll_name, filename, curl_command, update_password):
             (filename, BROKER_OPTIONS["config_url"], top_coll_name, obj_name))
         return
 
-    if(curl_command):
+    if BROKER_OPTIONS["curl_only"]:
         build_curl_commands(rest_commands)
     else:
         exec_rest_commands(rest_commands)

@@ -8,7 +8,7 @@ from jinja2 import Environment, FileSystemLoader
 from .util import *
 from .sempv2_defs import SEMPV2_DEFS
 
-def restore(top_coll_name, filename, curl_command):
+def restore(top_coll_name, filename):
     if BROKER_OPTIONS["verbose"]:
         logging.info("About to restore {} with file '{}'".format(top_coll_name, filename))
 
@@ -25,7 +25,7 @@ def restore(top_coll_name, filename, curl_command):
 
     rest_commands = []
     generate_restore_commands(rest_commands, "", top_coll_name, obj_json, obj_def)
-    if(curl_command):
+    if BROKER_OPTIONS["curl_only"]:
         build_curl_commands(rest_commands)
     else:
         exec_rest_commands(rest_commands)
