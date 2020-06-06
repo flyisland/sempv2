@@ -35,6 +35,7 @@ def cli(ctx, admin_user, admin_password, host, curl_only, verbose):
     if host[-1]=='/':
         host=host[:-1]
 
+    BROKER_OPTIONS["host"] = host
     BROKER_OPTIONS["config_url"] = host + SEMPV2_BASE_PATH
     BROKER_OPTIONS["admin_user"] = admin_user
     BROKER_OPTIONS["password"] = admin_password

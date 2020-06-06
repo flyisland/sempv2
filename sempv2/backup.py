@@ -1,6 +1,6 @@
 import json
 from .util import *
-from .sempv2_defs import SEMPV2_DEFS
+from .sempv2_defs import SEMPV2_DEFS, SEMP_VERSION_ONLINE
 
 def backup(top_coll_name, obj_name, remove_default_value=False, reserve_deprecated=False):
     vpn_config = get_online_obj_config(top_coll_name, obj_name, remove_default_value, reserve_deprecated)
@@ -21,6 +21,8 @@ def get_online_obj_config(top_coll_name, obj_name, remove_default_value=False, r
         remove_default_attributes(obj_def, obj_config)
     if not reserve_deprecated:
         remove_deprecated_children(obj_def, obj_config)
+
+    obj_config["sempVersion"] = SEMP_VERSION_ONLINE["TEXT"]
     return obj_config
 
 def fetch_collections(data, links):

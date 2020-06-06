@@ -4,15 +4,34 @@ from importlib_resources import read_text
 import re
 
 SEMPV2_BASE_PATH = "/SEMP/v2/config"
+SEMP_VERSION_ONLINE = {}
+SEMP_VERSION_FILE = {}
 SEMPV2_DEFS = {}
 __sempv2_openapi_config_json = None
 __all_paths = None
 
 def init_object_definitions(BROKER_OPTIONS):
+    global SEMP_VERSION_ONLINE
     global SEMPV2_DEFS
     global __sempv2_openapi_config_json
     global __all_paths
 
+# get sempVersion first
+    api_url = BROKER_OPTIONS["config_url"]+"/about/api"
+    r = requests.get(api_url, \
+        auth=(BROKER_OPTIONS["admin_user"], BROKER_OPTIONS["password"]))
+    if (r.status_code != 200):
+        print("GET on {} returns {}".format(api_url, r.status_code))
+        print(r.text)
+        raise RuntimeError
+    else:
+        api_json = r.json()
+        ver = api_json["data"]["sempVersion"]
+        SEMP_VERSION_ONLINE["TEXT"]=ver
+        # convert the string version into int so we could compare them
+        SEMP_VERSION_ONLINE["INT"]=int(ver.split(".")[0])*1000+int(ver.split(".")[1])
+
+# get the spec of semp
     spec_url = BROKER_OPTIONS["config_url"]+"/spec"
     r = requests.get(spec_url, \
         auth=(BROKER_OPTIONS["admin_user"], BROKER_OPTIONS["password"]))
@@ -37,6 +56,13 @@ def build_obj_def(parent_path, collection_name):
     this_def = {}
     # 1. find the collection path and the object path
     collection_path = parent_path + "/" + collection_name
+
+    # return None if there is no such resource there
+    if (not __sempv2_openapi_config_json
+        .get("paths")
+        .get(collection_path)):
+        return None
+
     if(__sempv2_openapi_config_json
         .get("paths")
         .get(collection_path)

@@ -6,7 +6,7 @@ import os
 from jinja2 import Environment, FileSystemLoader
 
 from .util import *
-from .sempv2_defs import SEMPV2_DEFS
+from .sempv2_defs import SEMPV2_DEFS, SEMP_VERSION_ONLINE
 
 def restore(top_coll_name, filename):
     if BROKER_OPTIONS["verbose"]:
@@ -40,7 +40,20 @@ def read_config_file(filename):
         trim_blocks=True, 
         lstrip_blocks=True)
     config_txt = e.get_template(filename).render()
-    return json.loads(config_txt)
+    file_json = json.loads(config_txt)
+
+    if file_json.get("sempVersion"):
+        file_ver = file_json.pop("sempVersion")
+        file_ver_int = int(file_ver.split(".")[0])*1000+int(file_ver.split(".")[1])
+
+        if file_ver_int < SEMP_VERSION_ONLINE["INT"]:
+            logging.warning("The sempVersion of file '{}' is '{}', some attributes might have be deprecated in '{}' of the target broker '{}', "\
+                .format(filename, file_ver, SEMP_VERSION_ONLINE["TEXT"], BROKER_OPTIONS["host"] ))
+        elif file_ver_int > SEMP_VERSION_ONLINE["INT"]:
+            logging.warning("The sempVersion of file '{}' is '{}', some attributes might not be supported in '{}' of the target broker '{}'"\
+                .format(filename, file_ver, SEMP_VERSION_ONLINE["TEXT"], BROKER_OPTIONS["host"] ))
+
+    return file_json
 
 def generate_restore_commands(rest_commands, parent_uri, coll_name, obj_json, obj_def):
     """ Generate rest commands to restore resources from `obj_json` """
