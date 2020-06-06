@@ -16,6 +16,7 @@ def update(top_coll_name, filename, curl_command, update_password):
     obj_def = SEMPV2_DEFS[top_coll_name]
     obj_json_file = read_config_file(filename)
 
+    remove_default_attributes(obj_def, obj_json_file)
     deprecated_children=[]
     remove_deprecated_children(obj_def, obj_json_file, deprecated_children)
     if len(deprecated_children) > 0 :
@@ -30,7 +31,7 @@ def update(top_coll_name, filename, curl_command, update_password):
             (BROKER_OPTIONS["config_url"], top_coll_name, obj_name, filename))
 
     # 2. load config from online vpn
-    obj_json_online = get_online_obj_config(top_coll_name, obj_name)
+    obj_json_online = get_online_obj_config(top_coll_name, obj_name, remove_default_value=True)
 
     # 3. generate update rest commands
     rest_commands = []
