@@ -15,11 +15,19 @@ Install the package locally with:
 $ pip install .
 ```
 
+## Caution
+
+Basically all attributes related to credentials (such as passwords) are "write-only", which means that they cannot be exported and cannot be backed up.
+
+Please remember to manually set up all the credential attributes in the JSON file before restoring the VPN or DMR Cluster.
+
+You can find out all "write-only" attributes on the official [Solace SEMPv2 Help](https://docs.solace.com/API-Developer-Online-Ref-Documentation/swagger-ui/config/index.html).
+
 ## Usage
 
 ### VPN
 
-Run `sempv2 vpn` to show the help message:
+Run `sempv2` to show the help message:
 
 ```bash
 $ sempv2
@@ -41,8 +49,8 @@ Options:
   --help                     Show this message and exit.
 
 Commands:
-  cluster  Backing Up and Restoring the Setting of PubSub+ DMR Cluster
-  vpn      Backing Up and Restoring the Setting of PubSub+ VPN
+  cluster  Back up and Restore the Setting of PubSub+ DMR Cluster
+  vpn      Back up and Restore the Setting of PubSub+ VPN
 
 $ sempv2 vpn --help
 Usage: sempv2 vpn [OPTIONS] COMMAND [ARGS]...

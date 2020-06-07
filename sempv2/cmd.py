@@ -46,12 +46,12 @@ def cli(ctx, admin_user, admin_password, host, curl_only, verbose):
 
 @cli.group()
 def vpn():
-    """Backing Up and Restoring the Setting of PubSub+ VPN"""
+    """Back up and Restore the Setting of PubSub+ VPN"""
     pass
 
 @cli.group()
 def cluster():
-    """Backing Up and Restoring the Setting of PubSub+ DMR Cluster"""
+    """Back up and Restore the Setting of PubSub+ DMR Cluster"""
     pass
 
 # ------------- sub commands of vpn -------------

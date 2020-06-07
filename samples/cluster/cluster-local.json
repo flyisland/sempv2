@@ -1,8 +1,9 @@
+{% import 'vars.j2' as var %}
 {
-  "authenticationBasicPassword":"default",
-  "dmrClusterName": "cluster-azure",
+  "authenticationBasicPassword":"{{var.authenticationBasicPassword}}",
+  "dmrClusterName": "{{var.dmrClusterName}}",
   "enabled": true,
-  "nodeName": "29315f44a7eb",
+  "nodeName": "{{var.localNodeName}}",
   "links": [
     {
       "enabled": true,
@@ -12,12 +13,12 @@
         "setPercent": 2
       },
       "queueMaxMsgSpoolUsage": 800000,
-      "remoteNodeName": "solace01",
-      "authenticationBasicPassword":"default",
+      "remoteNodeName": "{{var.remoteNodeName}}",
+      "authenticationBasicPassword":"{{var.authenticationBasicPassword}}",
       "span": "internal",
       "remoteAddresses": [
         {
-          "remoteAddress": "23.100.94.197"
+          "remoteAddress": "{{var.remoteAddress}}"
         }
       ]
     }
