@@ -10,7 +10,6 @@ setup(name='sempv2',
       packages=find_packages(),
       install_requires=[
           'click',
-          'importlib_resources',
           'jinja2'
       ],
       entry_points='''

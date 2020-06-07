@@ -1,6 +1,5 @@
 import requests
 import json
-from importlib_resources import read_text
 import re
 
 SEMPV2_BASE_PATH = "/SEMP/v2/config"
