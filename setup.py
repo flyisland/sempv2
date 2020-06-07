@@ -12,10 +12,11 @@ setup(name='sempv2',
           'click',
           'jinja2'
       ],
-      entry_points='''
-            [console_scripts]
-            sempv2=sempv2.cmd:cli
-      ''',
+      entry_points={
+        "console_scripts": [
+            "sempv2=sempv2.cmd:cli",
+        ]
+      },
       include_package_data=True,
       package_data={
             '': ['*.json'],
