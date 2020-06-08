@@ -2,7 +2,7 @@ import logging
 import re
 
 from .sempv2_defs import SEMPV2_DEFS
-from .backup import get_online_obj_config, remove_default_attributes
+from .backup import get_online_obj_config
 from .restore import read_config_file, generate_restore_commands
 from .delete import generate_delete_commands
 from .util import *
@@ -16,7 +16,7 @@ def update(top_coll_name, filename, update_password):
     obj_def = SEMPV2_DEFS[top_coll_name]
     obj_json_file = read_config_file(filename)
 
-    remove_default_attributes(obj_def, obj_json_file)
+    remove_special_attributes(obj_def, obj_json_file, remove_reserved_object=False)
     deprecated_children=[]
     remove_deprecated_children(obj_def, obj_json_file, deprecated_children)
     if len(deprecated_children) > 0 :

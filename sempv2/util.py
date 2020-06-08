@@ -79,14 +79,15 @@ def exec_rest_commands(rest_commands):
         rest(c["verb"], BROKER_OPTIONS["config_url"]+c["url"], c["data_json"])
 
 
-def remove_default_attributes(obj_def, data, parent_identifiers=[]):
+def remove_special_attributes(obj_def, data, parent_identifiers=[], remove_default_value=True, remove_reserved_object=True):
     """Remove attributes with default value"""
     
     #1. Remove attributes with default value
-    Defaults = obj_def["Defaults"]
-    for k, v in Defaults.items():
-        if k in data and data[k] == Defaults[k]:
-            data.pop(k)
+    if remove_default_value:
+        Defaults = obj_def["Defaults"]
+        for k, v in Defaults.items():
+            if k in data and data[k] == Defaults[k]:
+                data.pop(k)
     
     #2 remove identifiers of parent object, which are duplicated in each level
     for k in parent_identifiers:
@@ -101,11 +102,12 @@ def remove_default_attributes(obj_def, data, parent_identifiers=[]):
         
         # Names starting with '#'->'%23' are reserved
         # Remove it from backup
-        data[child_coll_name][:] = [child_obj for child_obj in data[child_coll_name] \
-            if not build_identifiers_uri(child_obj, child_obj_def).startswith("%23")]
+        if remove_reserved_object:
+            data[child_coll_name][:] = [child_obj for child_obj in data[child_coll_name] \
+                if not build_identifiers_uri(child_obj, child_obj_def).startswith("%23")]
 
         for child_obj in data[child_coll_name]:
-            remove_default_attributes(child_obj_def, child_obj, parent_identifiers_for_child)
+            remove_special_attributes(child_obj_def, child_obj, parent_identifiers_for_child, remove_default_value, remove_reserved_object)
 
 
 def remove_deprecated_children(obj_def, obj_json, deprecated_children=[]):

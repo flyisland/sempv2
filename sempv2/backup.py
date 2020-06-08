@@ -17,8 +17,7 @@ def get_online_obj_config(top_coll_name, obj_name, remove_default_value=False, r
     # GET all children collections
     fetch_collections(obj_config, links)
     obj_def = SEMPV2_DEFS[top_coll_name]
-    if remove_default_value:
-        remove_default_attributes(obj_def, obj_config)
+    remove_special_attributes(obj_def, obj_config, remove_default_value=remove_default_value)
     if not reserve_deprecated:
         remove_deprecated_children(obj_def, obj_config)
 

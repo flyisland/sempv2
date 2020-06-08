@@ -67,10 +67,12 @@ def generate_restore_commands(rest_commands, parent_uri, coll_name, obj_json, ob
     object_uri = collention_uri+"/"+id_uri
 
     # 3. check if this is a reserved object
-    if id_uri.startswith("%23"):
+    # comment this step to make sure the user will get alert while there're
+    # reserved object in the config file
+    # if id_uri.startswith("%23"):
         # Names starting with '#'->'%23' are reserved 
         # skip the restore operation
-        return
+        # return
 
     # 4. Check if this object includes Requires-Disable update
     isEnable = False
