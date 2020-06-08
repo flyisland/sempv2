@@ -1,11 +1,11 @@
-# Backing Up and Restoring Solace PubSub+ Configs with SEMPv2
+# Back Up and Restore Solace PubSub+ Configs with SEMPv2
 
 ## Goals
 
-* [X] Backing up the config of a VPN or a DMR-cluster to a JSON file
-* [X] Restore a VPN or a DMR-cluster from a JSON file
-* [X] Delete a VPN or a DMR-cluster
-* [X] Update the VPN or DMR-cluster with the configuration file
+* [X] Back up the config of PS+ broker into a single JSON file
+* [X] Restore the config of PS+ broker from a JSON file
+* [X] Delete a PS+ object (such as VPN or DMR Cluster)
+* [X] Update the config of PS+ broker with the configuration file
 
 ## Installation
 
@@ -24,8 +24,6 @@ Please remember to manually set up all the credential attributes in the JSON fil
 You can find out all "write-only" attributes on the official [Solace SEMPv2 Help](https://docs.solace.com/API-Developer-Online-Ref-Documentation/swagger-ui/config/index.html).
 
 ## Usage
-
-### VPN
 
 Run `sempv2` to show the help message:
 
