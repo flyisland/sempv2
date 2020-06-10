@@ -3,6 +3,7 @@ import json
 from urllib.parse import quote_plus
 import logging
 
+from .sempv2_defs import SEMPV2_DEFS
 # helper functions
 BROKER_OPTIONS = {}
 #    BROKER_OPTIONS["config_url"]
@@ -122,3 +123,12 @@ def remove_deprecated_children(obj_def, obj_json, deprecated_children=[]):
 
         for child_obj in obj_json[child_coll_name]:
             remove_deprecated_children(child_obj_def, child_obj, deprecated_children)
+
+def get_object_identifiers(top_coll_name):
+    url = "{}/{}".format(BROKER_OPTIONS["config_url"], top_coll_name)
+    
+    # GET the first level content of this object
+    rjson = rest("get", url)
+    obj_list = rjson['data']
+    obj_def = SEMPV2_DEFS[top_coll_name]
+    return [build_identifiers_uri(obj_json, obj_def) for obj_json in obj_list ]
