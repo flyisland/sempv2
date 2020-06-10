@@ -4,6 +4,8 @@ Backing Up and Restoring Solace PubSub+ VPN Configs with SEMPv2
 
 ### Todo
 
+- [ ] update: ask user for confirmation before deleting objects  
+- [ ] new script to build a cluster consist of multiple borkers with one config file  
 
 ### In Progress
 
