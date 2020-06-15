@@ -15,7 +15,7 @@ def rest(verb, url, data_json=None, return_error_status=False):
     global BROKER_OPTIONS
     headers={"content-type": "application/json"}
     str_json = json.dumps(data_json,indent=2) if data_json != None else None
-    r = getattr(requests, verb)(url, headers={"content-type": "application/json"},
+    r = getattr(requests, verb)(url, headers=headers,
         auth=(BROKER_OPTIONS["admin_user"], BROKER_OPTIONS["password"]),
         data=(str_json))
     if (r.status_code != 200):
