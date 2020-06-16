@@ -21,9 +21,13 @@ logging.basicConfig(level=logging.INFO)
     help='URL to access the management endpoint of the broker')
 @click.option('--curl-only', default=False, show_default=True, is_flag=True,
     help='Output curl commands only, no effect on BACKUP command')
+@click.option('--insecure', default=False, show_default=True, is_flag=True,
+    help='Allow insecure server connections when using SSL')
+@click.option('--ca-bundle', default='', show_default=True,
+    help='The path to a CA_BUNDLE file or directory with certificates of trusted CAs')
 @click.option("--verbose", "-v", is_flag=True, help="Enables verbose mode.")
 @click.pass_context
-def cli(ctx, admin_user, admin_password, host, curl_only, verbose):
+def cli(ctx, admin_user, admin_password, host, curl_only, insecure, ca_bundle, verbose):
     """Backing Up and Restoring Solace PubSub+ Configs with SEMPv2 protocol"""
 
     # Create a sempv2 object and remember it as as the context object.  From
@@ -41,6 +45,8 @@ def cli(ctx, admin_user, admin_password, host, curl_only, verbose):
     BROKER_OPTIONS["password"] = admin_password
     BROKER_OPTIONS["verbose"] = verbose
     BROKER_OPTIONS["curl_only"] = curl_only
+    BROKER_OPTIONS["insecure"] = insecure
+    BROKER_OPTIONS["ca_bundle"] = ca_bundle
 
     init_object_definitions(BROKER_OPTIONS)
 
