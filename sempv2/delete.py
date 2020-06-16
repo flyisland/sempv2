@@ -33,10 +33,10 @@ def generate_delete_commands(rest_commands, parent_uri, coll_name, obj_json, obj
     object_uri = parent_uri+"/"+coll_name+"/"+id_uri
 
     #2 Check if this object includes Requires-Disable attributes
-    if len(obj_def["RequiresDisable"]) > 0:
+    #if len(obj_def["RequiresDisable"]) > 0:
         # disable current element fist
-        payload = {"enabled":False}
-        append_rest_commands(rest_commands, "patch", object_uri, id_uri, payload)
+        # payload = {"enabled":False}
+        # append_rest_commands(rest_commands, "patch", object_uri, id_uri, payload)
 
     #3. recursively process all children
     for child_coll_name, child_obj_def in obj_def["Children"].items():

@@ -51,9 +51,33 @@ def build_curl_commands(commands):
 {}'""".format(json.dumps(c["data_json"], indent=2))
         print(curl_cmd)
 
-def exec_rest_commands(rest_commands):
+def exec_rest_commands(rest_commands, retry_on="NOT_ALLOWED"):
+    retry_commands = []
     for c in rest_commands:
-        logging.info("{:<6} {}".format(c["verb"].upper(), c["url"]))
-        rest(c["verb"], BROKER_OPTIONS["config_url"]+c["url"], c["data_json"])
+        r = rest(c["verb"], BROKER_OPTIONS["config_url"]+c["url"], c["data_json"],
+            return_error_status=True)
+        if type(r) is requests.models.Response:
+            if r.status_code == 400 and\
+                safeget(r.json(), "meta", "error", "status") == retry_on:
+                retry_commands.append(c)
+                logging.warn("{:<6} {}, status:{}-{}".format(c["verb"].upper(), c["url"],\
+                    r.status_code, retry_on))
+            else:
+                logging.error("{:<6} {}, status:{}".format(c["verb"].upper(), c["url"], r.status_code))
+                if c["data_json"]: print(json.dumps(c["data_json"], indent=2))
+                print(r.text)
+                raise SystemExit
+        else:
+            logging.info("{:<6} {}, status:{}".format(c["verb"].upper(), c["url"], 200))
+
+    if len(retry_commands) != len(rest_commands):
+        exec_rest_commands(retry_commands)
 
 
+def safeget(dct, *keys):
+    for key in keys:
+        try:
+            dct = dct[key]
+        except KeyError:
+            return None
+    return dct
