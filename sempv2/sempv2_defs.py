@@ -30,7 +30,7 @@ def init_object_definitions(BROKER_OPTIONS):
     __sempv2_openapi_config_json = rest("get", spec_url)
     __all_paths =  __sempv2_openapi_config_json['paths'].keys()
 
-    for coll in ["msgVpns", "dmrClusters"]:
+    for coll in ["msgVpns", "dmrClusters", "certAuthorities"]:
         SEMPV2_DEFS[coll] = build_obj_def("", coll)
    
 

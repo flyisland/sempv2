@@ -60,6 +60,11 @@ def cluster():
     """Back up and Restore the Setting of PubSub+ DMR Cluster"""
     pass
 
+@cli.group()
+def ca():
+    """Back up and Restore the Setting of PubSub+ DMR Certificate Authority"""
+    pass
+
 # ------------- sub commands of vpn -------------
 
 @vpn.command(name="backup")
@@ -127,6 +132,22 @@ def restore_cluster( config_file):
 def update_cluster(config_file, update_password):
     """Update the Cluster with the configuration file"""
     update("dmrClusters", config_file, update_password)
+
+# ------------- sub commands of certAuthorities -------------
+
+@ca.command(name="delete")
+@click.argument('ca_name')
+@click.confirmation_option()
+def delete_ca(ca_name):
+    """Delete the Certificate Authority"""
+    click.echo("Deleting Certificate Authority '{}'".format(ca_name))
+    delete("certAuthorities", ca_name)
+
+@ca.command(name="restore")
+@click.argument('config-file', type=click.Path(exists=True))
+def restore_ca( config_file):
+    """Restore the Certificate Authority with the configuration file"""
+    restore("certAuthorities", config_file)
 
 
 
