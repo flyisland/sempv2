@@ -1,8 +1,8 @@
 import click
 import logging
 
-from .sempv2_defs import SEMPV2_BASE_PATH, init_object_definitions
-from .util import BROKER_OPTIONS, get_object_identifiers
+from .sempv2_defs import *
+from .util import BROKER_OPTIONS
 from .backup import backup
 from .delete import delete
 from .restore import restore

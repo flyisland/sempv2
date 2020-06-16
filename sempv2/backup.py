@@ -1,6 +1,6 @@
 import json
 from .util import *
-from .sempv2_defs import SEMPV2_DEFS, SEMP_VERSION_ONLINE
+from .sempv2_defs import *
 
 def backup(top_coll_name, obj_name, remove_default_value=False, reserve_deprecated=False):
     vpn_config = get_online_obj_config(top_coll_name, obj_name, remove_default_value, reserve_deprecated)

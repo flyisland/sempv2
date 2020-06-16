@@ -2,7 +2,7 @@ import logging
 
 from .util import *
 from .backup import get_online_obj_config
-from .sempv2_defs import SEMPV2_DEFS
+from .sempv2_defs import *
 
 def delete(top_coll_name, obj_name):
     if BROKER_OPTIONS["verbose"]:

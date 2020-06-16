@@ -1,7 +1,7 @@
 import logging
 import re
 
-from .sempv2_defs import SEMPV2_DEFS
+from .sempv2_defs import *
 from .backup import get_online_obj_config
 from .restore import read_config_file, generate_restore_commands
 from .delete import generate_delete_commands

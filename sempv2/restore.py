@@ -6,7 +6,7 @@ import os
 from jinja2 import Environment, FileSystemLoader
 
 from .util import *
-from .sempv2_defs import SEMPV2_DEFS, SEMP_VERSION_ONLINE
+from .sempv2_defs import *
 
 def restore(top_coll_name, filename):
     if BROKER_OPTIONS["verbose"]:
