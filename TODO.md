@@ -4,6 +4,7 @@ Backing Up and Restoring Solace PubSub+ VPN Configs with SEMPv2
 
 ### Todo
 
+- [ ] Problem with DELETE: Cannot delete the ACL profile because there are client-usernames configured against it in not shutdown state  
 - [ ] update: ask user for confirmation before deleting objects  
 - [ ] new script to build a cluster consist of multiple borkers with one config file  
 
