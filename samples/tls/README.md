@@ -143,3 +143,12 @@ REDUNDANCY T+U Y N N Mgmt                   8302 U D
 
 3dd5cd886d54>
 ``
+
+## Create a Certificate Authority object
+
+```bash
+sempv2 ca restore ca01.json
+INFO:root:POST   /certAuthorities, status:200
+```
+
+Check [User Authentication](http://localhost:8080/#/system-info/user-mgmt/user-auth-detail/cert-authorities) to check the created CA.

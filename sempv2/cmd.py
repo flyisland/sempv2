@@ -62,7 +62,7 @@ def cluster():
 
 @cli.group()
 def ca():
-    """Back up and Restore the Setting of PubSub+ DMR Certificate Authority"""
+    """Config the Setting of PubSub+ DMR Certificate Authority"""
     pass
 
 # ------------- sub commands of vpn -------------
