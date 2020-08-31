@@ -1,5 +1,7 @@
 # Back Up and Restore Solace PubSub+ Configs with SEMPv2
 
+This project is NO longer maintained, please use the [solconfig](https://github.com/flyisland/solconfig) for backup and restore the Solace PS+ Broker Configuration.
+
 ## Goals
 
 * [X] Back up the config of PS+ broker into a single JSON file
